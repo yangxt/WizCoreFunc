@@ -8,8 +8,34 @@
 
 #import "AppDelegate.h"
 
+#import "WizApiClientLogin.h"
+#import "WizApiRefreshGroups.h"
+#import "WizApiDownloadDeletedGuids.h"
+@interface AppDelegate () <WizApiLoginDelegate>
+{
+    
+}
+@end
+
 @implementation AppDelegate
 
+
+- (void) didClientLoginFaild:(NSError *)error
+{
+    
+}
+
+- (void) didClientLoginSucceed:(NSString *)accountUserId retObject:(id)ret
+{
+    
+    NSString* kbguid = [ret objectForKey:@"kb_guid"];
+    
+    WizApiDownloadDeletedGuids* downloadDeletedGuids = [[WizApiDownloadDeletedGuids alloc] init];
+    downloadDeletedGuids.kbGuid = kbguid;
+    downloadDeletedGuids.accountUserId = accountUserId;
+    [downloadDeletedGuids start];
+    
+}
 - (void)dealloc
 {
     [_window release];
@@ -18,6 +44,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    WizApiClientLogin* clientLogin = [[WizApiClientLogin alloc] init];
+    clientLogin.accountUserId= @"yishuiliunian@gmail.com";
+    clientLogin.password = @"654321";
+    clientLogin.delegate = self;
+    [clientLogin start];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
