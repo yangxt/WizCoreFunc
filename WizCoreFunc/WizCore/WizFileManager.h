@@ -26,9 +26,10 @@
 - (BOOL)      removeObjectPath:(NSString*)guid                  accountUserId:(NSString*)accountUserId;
 - (long long) folderTotalSizeAtPath:(NSString*) folderPath;
 //
-- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid;
+- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid accountUserId:(NSString*)userId;
 - (BOOL)      unzipWizObjectData:(NSString*)ziwFilePath toPath:(NSString*)aimPath;
 //
+- (NSString*) uploadTempFile:(NSString*)objGuid accountUserId:(NSString*)userId;
 -(NSString*)  createZipByPath:(NSString*)filesPath;
 //
 - (NSInteger) accountCacheSize:(NSString*)accountUserId;

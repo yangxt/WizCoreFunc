@@ -91,16 +91,9 @@
     [self ensurePathExists:accountPath];
     return accountPath;
 }
-- (NSString*) accountPath
-{
-	return [self accountPathFor:[[WizAccountManager defaultManager] activeAccountUserId]];
-}
 
-- (NSString*) dataBasePath:(NSString*)accountUserId
-{
-    NSString* accountPath = [self accountPathFor:accountUserId];
-    return [accountPath stringByAppendingPathComponent:@"index.db"];
-}
+
+
 
 - (NSString*) abstractDataBatabasePath:(NSString*)accountUserId
 {
@@ -108,46 +101,18 @@
     return [accountPath stringByAppendingPathComponent:@"tempAbs.db"];
 }
 
-- (NSString*) objectFilePath:(NSString*)objectGuid
+- (NSString*) wizObjectFilePath:(NSString *)objectGuid accountUserId:(NSString *)accountUserId
 {
-	NSString* accountPath = [self accountPath];
+    NSString* accountPath = [self accountPathFor:accountUserId];
 	NSString* subName = [NSString stringWithFormat:@"%@", objectGuid];
 	NSString* path = [accountPath stringByAppendingPathComponent:subName];
     [self ensurePathExists:path];
 	return path;
 }
-- (NSString*) documentIndexFilesPath:(NSString*)documentGUID
+
+- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid accountUserId:(NSString *)userId
 {
-    NSString* documentFilePath = [self accountPath];
-    NSString* indexFilesPath = [[documentFilePath stringByAppendingPathComponent:documentGUID] stringByAppendingPathComponent:@"index_files"];
-    [self ensurePathExists:indexFilesPath];
-    return indexFilesPath;
-}
-- (NSString*) documentFile:(NSString*)documentGUID fileName:(NSString*)fileName
-{
-    NSString* path = [self objectFilePath:documentGUID];
-	NSString* filename = [path stringByAppendingPathComponent:fileName];
-	return filename;
-}
-- (NSString*) documentIndexFile:(NSString*)documentGUID
-{
-	return [self documentFile:documentGUID fileName:@"index.html"];
-}
-- (NSString*) documentMobileFile:(NSString*)documentGuid
-{
-    return [self documentFile:documentGuid fileName:@"wiz_mobile.html"];
-}
-- (NSString*) documentAbstractFile:(NSString*)documentGUID
-{
-    return [self documentFile:documentGUID fileName:@"wiz_abstract.html"];
-}
-- (NSString*) documentFullFile:(NSString*)documentGUID
-{
-    return [self documentFile:documentGUID fileName:@"wiz_full.html"];
-}
-- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid
-{
-    NSString* objectPath = [self objectFilePath:objGuid];
+    NSString* objectPath = [self wizObjectFilePath:objGuid accountUserId:userId];
     return [objectPath stringByAppendingPathComponent:@"temp.zip"];
 }
 //
@@ -164,29 +129,30 @@
 	return b;
 }
 
-- (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid
+- (BOOL) unzipWizObjectData:(NSString *)ziwFilePath toPath:(NSString *)aimPath
 {
-    NSString* objectPath = [self objectFilePath:objectGuid];
     ZipArchive* zip = [[ZipArchive alloc] init];
-    [zip UnzipOpenFile:objectZipFilePath];
-    BOOL zipResult = [zip UnzipFileTo:objectPath overWrite:YES];
+    [zip UnzipOpenFile:ziwFilePath];
+    BOOL zipResult = [zip UnzipFileTo:aimPath overWrite:YES];
     [zip UnzipCloseFile];
     [zip release];
     if (!zipResult) {
-        if ([WizGlobals checkFileIsEncry:objectZipFilePath]) {
+        if ([WizGlobals checkFileIsEncry:ziwFilePath]) {
             return YES;
         }
         else {
-            [self deleteFile:objectZipFilePath];
+            [self deleteFile:ziwFilePath];
             return NO;
         }
     }
     else {
-        [self deleteFile:objectZipFilePath];
+        [self deleteFile:ziwFilePath];
         return YES;
     }
     return YES;
+
 }
+
 -(BOOL) addToZipFile:(NSString*) directory directoryName:(NSString*)name zipFile:(ZipArchive*) zip
 {
     NSArray* selectedFile = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
@@ -208,9 +174,8 @@
     }
     return YES;
 }
--(NSString*) createZipByGuid:(NSString*)objectGUID 
+-(NSString*) createZipByPath:(NSString *)objectPath
 {
-    NSString* objectPath = [self objectFilePath:objectGUID];
     NSArray* selectedFile = [self contentsOfDirectoryAtPath:objectPath error:nil];
     NSString* zipPath = [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
     ZipArchive* zip = [[ZipArchive alloc] init];
@@ -233,6 +198,11 @@
     if(!ret) zipPath =nil;
     [zip release];
     return zipPath;
+}
+- (NSString*) uploadTempFile:(NSString*)objGuid accountUserId:(NSString*)userId
+{
+    NSString* objectPath = [self wizObjectFilePath:objGuid accountUserId:userId];
+    return [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
 }
 
 - (BOOL) removeObjectPath:(NSString*)guid

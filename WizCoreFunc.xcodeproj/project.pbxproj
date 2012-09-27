@@ -73,6 +73,12 @@
 		73D584C91612919B0046589F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D584C81612919B0046589F /* libxml2.dylib */; };
 		73D584D81612A4EA0046589F /* WizApiDownloadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584D71612A4EA0046589F /* WizApiDownloadList.m */; };
 		73D584DC1612A64F0046589F /* WizApiDownloadDeletedGuids.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584DB1612A64F0046589F /* WizApiDownloadDeletedGuids.m */; };
+		73D584DF1612B4860046589F /* WizApiDownloadDocumentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584DE1612B4860046589F /* WizApiDownloadDocumentList.m */; };
+		73D584E51612B8050046589F /* WizApiDownloadTagList.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584E41612B8020046589F /* WizApiDownloadTagList.m */; };
+		73D584E81612B84A0046589F /* WizApiDownloadAttachmentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584E71612B8490046589F /* WizApiDownloadAttachmentList.m */; };
+		73D584EB1612B9DE0046589F /* WizApiGetAllVersions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584EA1612B9DD0046589F /* WizApiGetAllVersions.m */; };
+		73D584EE1612E0650046589F /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584ED1612E0640046589F /* WizDownloadObject.m */; };
+		73D584F11612F4730046589F /* WizUploadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D584F01612F4720046589F /* WizUploadObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -202,6 +208,20 @@
 		73D584D71612A4EA0046589F /* WizApiDownloadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApiDownloadList.m; sourceTree = "<group>"; };
 		73D584DA1612A64E0046589F /* WizApiDownloadDeletedGuids.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiDownloadDeletedGuids.h; sourceTree = "<group>"; };
 		73D584DB1612A64F0046589F /* WizApiDownloadDeletedGuids.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApiDownloadDeletedGuids.m; sourceTree = "<group>"; };
+		73D584DD1612B4860046589F /* WizApiDownloadDocumentList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiDownloadDocumentList.h; sourceTree = "<group>"; };
+		73D584DE1612B4860046589F /* WizApiDownloadDocumentList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApiDownloadDocumentList.m; sourceTree = "<group>"; };
+		73D584E31612B8010046589F /* WizApiDownloadTagList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiDownloadTagList.h; sourceTree = "<group>"; };
+		73D584E41612B8020046589F /* WizApiDownloadTagList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApiDownloadTagList.m; sourceTree = "<group>"; };
+		73D584E61612B8490046589F /* WizApiDownloadAttachmentList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiDownloadAttachmentList.h; sourceTree = "<group>"; };
+		73D584E71612B8490046589F /* WizApiDownloadAttachmentList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApiDownloadAttachmentList.m; sourceTree = "<group>"; };
+		73D584E91612B9DD0046589F /* WizApiGetAllVersions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiGetAllVersions.h; sourceTree = "<group>"; };
+		73D584EA1612B9DD0046589F /* WizApiGetAllVersions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApiGetAllVersions.m; sourceTree = "<group>"; };
+		73D584EC1612E0630046589F /* WizDownloadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadObject.h; sourceTree = "<group>"; };
+		73D584ED1612E0640046589F /* WizDownloadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadObject.m; sourceTree = "<group>"; };
+		73D584EF1612F4700046589F /* WizUploadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUploadObject.h; sourceTree = "<group>"; };
+		73D584F01612F4720046589F /* WizUploadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizUploadObject.m; sourceTree = "<group>"; };
+		73D584F3161302B80046589F /* NSMutableDictionary+WizDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+WizDocument.h"; sourceTree = "<group>"; };
+		73D584F4161302B80046589F /* NSMutableDictionary+WizDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+WizDocument.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,20 +296,8 @@
 		73D58414161290990046589F /* WizCore */ = {
 			isa = PBXGroup;
 			children = (
+				73D584F21613021B0046589F /* WizTools */,
 				73D58455161290990046589F /* WizDbManger */,
-				73D58415161290990046589F /* CommonString.h */,
-				73D58416161290990046589F /* CommonString.m */,
-				73D58424161290990046589F /* minizip */,
-				73D58430161290990046589F /* NSDate+WizTools.h */,
-				73D58431161290990046589F /* NSDate+WizTools.m */,
-				73D58432161290990046589F /* NSDateAddtion */,
-				73D58437161290990046589F /* NSString+WizString.h */,
-				73D58438161290990046589F /* NSString+WizString.m */,
-				73D58439161290990046589F /* Pinyin */,
-				73D5843C161290990046589F /* UIImage+WizTools.h */,
-				73D5843D161290990046589F /* UIImage+WizTools.m */,
-				73D5843E161290990046589F /* UIWebView+WizTools.h */,
-				73D5843F161290990046589F /* UIWebView+WizTools.m */,
 				73D58440161290990046589F /* WizAccountManager.h */,
 				73D58441161290990046589F /* WizAccountManager.m */,
 				73D58442161290990046589F /* WizApi */,
@@ -297,10 +305,6 @@
 				73D58454161290990046589F /* WizCore.m */,
 				73D58463161290990046589F /* WizFileManager.h */,
 				73D58464161290990046589F /* WizFileManager.m */,
-				73D58465161290990046589F /* WizGlobals.h */,
-				73D58466161290990046589F /* WizGlobals.mm */,
-				73D58467161290990046589F /* WizString.h */,
-				73D58468161290990046589F /* WizString.m */,
 				73D58469161290990046589F /* WizStruct */,
 				73D5847E161290990046589F /* xml-rpc */,
 				73D584C21612915B0046589F /* README */,
@@ -459,6 +463,12 @@
 				73D58446161290990046589F /* WizApiClientLogin.m */,
 				73D58447161290990046589F /* WizApiRefreshGroups.h */,
 				73D58448161290990046589F /* WizApiRefreshGroups.m */,
+				73D584E91612B9DD0046589F /* WizApiGetAllVersions.h */,
+				73D584EA1612B9DD0046589F /* WizApiGetAllVersions.m */,
+				73D584EC1612E0630046589F /* WizDownloadObject.h */,
+				73D584ED1612E0640046589F /* WizDownloadObject.m */,
+				73D584EF1612F4700046589F /* WizUploadObject.h */,
+				73D584F01612F4720046589F /* WizUploadObject.m */,
 			);
 			name = apis;
 			sourceTree = "<group>";
@@ -470,8 +480,40 @@
 				73D584D71612A4EA0046589F /* WizApiDownloadList.m */,
 				73D584DA1612A64E0046589F /* WizApiDownloadDeletedGuids.h */,
 				73D584DB1612A64F0046589F /* WizApiDownloadDeletedGuids.m */,
+				73D584DD1612B4860046589F /* WizApiDownloadDocumentList.h */,
+				73D584DE1612B4860046589F /* WizApiDownloadDocumentList.m */,
+				73D584E31612B8010046589F /* WizApiDownloadTagList.h */,
+				73D584E41612B8020046589F /* WizApiDownloadTagList.m */,
+				73D584E61612B8490046589F /* WizApiDownloadAttachmentList.h */,
+				73D584E71612B8490046589F /* WizApiDownloadAttachmentList.m */,
 			);
 			name = DownloadList;
+			sourceTree = "<group>";
+		};
+		73D584F21613021B0046589F /* WizTools */ = {
+			isa = PBXGroup;
+			children = (
+				73D58415161290990046589F /* CommonString.h */,
+				73D58424161290990046589F /* minizip */,
+				73D58430161290990046589F /* NSDate+WizTools.h */,
+				73D58431161290990046589F /* NSDate+WizTools.m */,
+				73D58432161290990046589F /* NSDateAddtion */,
+				73D58437161290990046589F /* NSString+WizString.h */,
+				73D58438161290990046589F /* NSString+WizString.m */,
+				73D58439161290990046589F /* Pinyin */,
+				73D5843C161290990046589F /* UIImage+WizTools.h */,
+				73D5843D161290990046589F /* UIImage+WizTools.m */,
+				73D5843E161290990046589F /* UIWebView+WizTools.h */,
+				73D5843F161290990046589F /* UIWebView+WizTools.m */,
+				73D58465161290990046589F /* WizGlobals.h */,
+				73D58466161290990046589F /* WizGlobals.mm */,
+				73D58467161290990046589F /* WizString.h */,
+				73D58468161290990046589F /* WizString.m */,
+				73D58416161290990046589F /* CommonString.m */,
+				73D584F3161302B80046589F /* NSMutableDictionary+WizDocument.h */,
+				73D584F4161302B80046589F /* NSMutableDictionary+WizDocument.m */,
+			);
+			name = WizTools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -595,6 +637,12 @@
 				73D584C1161290990046589F /* XMLRPCResponse.m in Sources */,
 				73D584D81612A4EA0046589F /* WizApiDownloadList.m in Sources */,
 				73D584DC1612A64F0046589F /* WizApiDownloadDeletedGuids.m in Sources */,
+				73D584DF1612B4860046589F /* WizApiDownloadDocumentList.m in Sources */,
+				73D584E51612B8050046589F /* WizApiDownloadTagList.m in Sources */,
+				73D584E81612B84A0046589F /* WizApiDownloadAttachmentList.m in Sources */,
+				73D584EB1612B9DE0046589F /* WizApiGetAllVersions.m in Sources */,
+				73D584EE1612E0650046589F /* WizDownloadObject.m in Sources */,
+				73D584F11612F4730046589F /* WizUploadObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

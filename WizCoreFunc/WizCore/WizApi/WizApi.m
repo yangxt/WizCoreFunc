@@ -140,5 +140,8 @@
     return 39;
 }
 
-
+- (void) changeStatue:(enum WizApiStatue)statue
+{
+    _statue = statue;
+}
 @end

@@ -63,6 +63,7 @@ const static NSInteger WizApiAttemptTimeMax = 5;
 - (void) reduceAttempTime;
 - (id<WizMetaDataBaseDelegate>) groupDataBase;
 //
+- (void) changeStatue:(enum WizApiStatue) statue;
 
 - (NSInteger) listCount;
 @end

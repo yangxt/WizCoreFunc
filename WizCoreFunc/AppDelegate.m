@@ -11,6 +11,14 @@
 #import "WizApiClientLogin.h"
 #import "WizApiRefreshGroups.h"
 #import "WizApiDownloadDeletedGuids.h"
+
+#import "WizApiDownloadDocumentList.h"
+
+#import "WizDownloadObject.h"
+
+#import "WizUploadObject.h"
+
+
 @interface AppDelegate () <WizApiLoginDelegate>
 {
     
@@ -30,9 +38,14 @@
     
     NSString* kbguid = [ret objectForKey:@"kb_guid"];
     
-    WizApiDownloadDeletedGuids* downloadDeletedGuids = [[WizApiDownloadDeletedGuids alloc] init];
+    id<WizMetaDataBaseDelegate> db = [[WizDbManager shareInstance] getMetaDataBaseForAccount:accountUserId kbGuid:kbguid];
+    WizDocument* doc = [db documentFromGUID:@"c56e99f2-3948-4a80-8568-e11106642336"];
+    
+    WizUploadObject* downloadDeletedGuids = [[WizUploadObject alloc] init];
     downloadDeletedGuids.kbGuid = kbguid;
     downloadDeletedGuids.accountUserId = accountUserId;
+    downloadDeletedGuids.uploadObject = doc;
+    
     [downloadDeletedGuids start];
     
 }
