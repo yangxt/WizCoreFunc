@@ -20,6 +20,7 @@
 {
     NSMutableArray* apiQueque;
     NSInteger   syncType;
+    NSInteger   apiIndex;
 }
 @end
 
@@ -40,7 +41,6 @@
 
 - (void) didGetAllObjectVersions:(NSDictionary *)dic
 {
-    NSLog(@"versions %@",dic);
     NSNumber* attachmentVer = [dic objectForKey:@"attachment_version"];
     NSNumber* documentVer = [dic objectForKey:@"document_version"];
     NSNumber* tagVer = [dic objectForKey:@"tag_version"];
@@ -99,13 +99,13 @@
     }
     else
     {
-        NSInteger index = [apiQueque indexOfObject:api];
-        if (index + 1 == [apiQueque count]) {
+        apiIndex ++;
+        if (apiIndex >= [apiQueque count]) {
             [self.delegate didSyncMetaSucceed];
         }
         else
         {
-            WizApi* nextApi = [apiQueque objectAtIndex:(index +1)];
+            WizApi* nextApi = [apiQueque objectAtIndex:apiIndex];
             [self.delegate didSyncMetaChangedStatue:@"asdfasdf"];
             [nextApi start];
         }
@@ -124,6 +124,7 @@
         getAllVersion.delegate = self;
         [apiQueque addObject:getAllVersion];
         [getAllVersion release];
+        apiIndex = 0;
     }
     return self;
 }

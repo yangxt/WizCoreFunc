@@ -42,7 +42,12 @@
 
 - (void) onUploadTags
 {
-    
+    id <WizMetaDataBaseDelegate> db = [self groupDataBase];
+    NSArray* tags = [db tagsForUpload];
+    for (WizTag* each in tags) {
+        [db setTagLocalChanged:each.strGuid changed:NO];
+    }
+    [self end];
 }
 - (BOOL) start
 {

@@ -210,12 +210,12 @@
 
 - (void) end
 {
-    if (self.statue == WizApistatueError) {
-        [self.delegate didUploadWizObjectDone:uploadObject];
-    }
-    else if (WizApistatueError == self.statue)
-    {
+    if (WizApistatueError == self.statue) {
         [self.delegate didUPloadWizObjectFaild:uploadObject];
+    }
+    else 
+    {
+        [self.delegate didUploadWizObjectDone:uploadObject];
     }
     [super end];
 }

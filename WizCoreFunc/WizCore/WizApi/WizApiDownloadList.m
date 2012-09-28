@@ -85,12 +85,14 @@
         currentVersion = version;
         if (self.serverVersion !=0 && version >= self.serverVersion) {
             [self end];
+            return;
         }
         [self callDownloadList];
     }
     else
     {
         [self end];
+        return;
     }
 }
 

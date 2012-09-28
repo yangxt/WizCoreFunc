@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		73CF0CB31615372E00668973 /* WizSyncMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CF0CB21615372E00668973 /* WizSyncMeta.m */; };
+		73CF0CB71615519A00668973 /* WizSyncDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CF0CB61615519900668973 /* WizSyncDownload.m */; };
+		73CF0CBA161558DD00668973 /* WizSyncUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CF0CB9161558DC00668973 /* WizSyncUpload.m */; };
 		73D583FE161290470046589F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D583FD161290470046589F /* UIKit.framework */; };
 		73D58400161290470046589F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D583FF161290470046589F /* Foundation.framework */; };
 		73D58402161290470046589F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D58401161290470046589F /* CoreGraphics.framework */; };
@@ -87,6 +89,10 @@
 /* Begin PBXFileReference section */
 		73CF0CB11615372E00668973 /* WizSyncMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncMeta.h; sourceTree = "<group>"; };
 		73CF0CB21615372E00668973 /* WizSyncMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncMeta.m; sourceTree = "<group>"; };
+		73CF0CB51615519900668973 /* WizSyncDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncDownload.h; sourceTree = "<group>"; };
+		73CF0CB61615519900668973 /* WizSyncDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncDownload.m; sourceTree = "<group>"; };
+		73CF0CB8161558DC00668973 /* WizSyncUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncUpload.h; sourceTree = "<group>"; };
+		73CF0CB9161558DC00668973 /* WizSyncUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncUpload.m; sourceTree = "<group>"; };
 		73D583F9161290470046589F /* WizCoreFunc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizCoreFunc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D583FD161290470046589F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		73D583FF161290470046589F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -387,6 +393,10 @@
 				73D58444161290990046589F /* WizApi.m */,
 				73CF0CB11615372E00668973 /* WizSyncMeta.h */,
 				73CF0CB21615372E00668973 /* WizSyncMeta.m */,
+				73CF0CB51615519900668973 /* WizSyncDownload.h */,
+				73CF0CB61615519900668973 /* WizSyncDownload.m */,
+				73CF0CB8161558DC00668973 /* WizSyncUpload.h */,
+				73CF0CB9161558DC00668973 /* WizSyncUpload.m */,
 				73D58449161290990046589F /* WizGroupSync.h */,
 				73D5844A161290990046589F /* WizGroupSync.m */,
 				73D5844B161290990046589F /* WizSyncCenter.h */,
@@ -661,6 +671,8 @@
 				73DB1EF31613F36D00ABE5B2 /* WizApiUploadDeletedGuids.m in Sources */,
 				73DB1EF71613F7CB00ABE5B2 /* WizApiUploadTags.m in Sources */,
 				73CF0CB31615372E00668973 /* WizSyncMeta.m in Sources */,
+				73CF0CB71615519A00668973 /* WizSyncDownload.m in Sources */,
+				73CF0CBA161558DD00668973 /* WizSyncUpload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

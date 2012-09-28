@@ -38,19 +38,20 @@
 }
 - (void) didRefreshGroupsSucceed
 {
-    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+   
     
     NSString* accountUserId = @"yishuiliunian@gmail.com";
-    NSArray* groups = [db groupsByAccountUserId:accountUserId];
+    NSString* kbguid = @"bd360844-8485-11e1-a525-00237def97cc";
     
-    for (WizGroup* each in groups) {
-        WizGroupSync* groupSync = [[WizGroupSync alloc] init];
-        groupSync.kbguid = each.kbguid;
-        groupSync.accountUserId = accountUserId;
-        [groupSync startSyncMeta];
-        break;
-    }
+    WizGroupSync* groupSync = [[WizGroupSync alloc] init];
+    groupSync.kbguid = kbguid;
+    groupSync.accountUserId = accountUserId;
     
+    id<WizMetaDataBaseDelegate> db = [[WizDbManager shareInstance] getMetaDataBaseForAccount:accountUserId kbGuid:kbguid];
+    
+    WizDocument* doc = [db documentFromGUID:@"fed19487-26c9-4c61-88d4-6aed1bc1cd29"];
+    
+    [groupSync uploadWizObject:doc];
 }
 - (void) didClientLoginSucceed:(NSString *)accountUserId retObject:(id)ret
 {
