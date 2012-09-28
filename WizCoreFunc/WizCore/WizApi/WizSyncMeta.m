@@ -19,7 +19,6 @@
 @interface WizSyncMeta () <WizApiGetAllVersionsDelegate, WizApiDelegate>
 {
     NSMutableArray* apiQueque;
-    NSInteger   apiIndex;
     NSInteger   syncType;
 }
 @end
@@ -28,8 +27,10 @@
 @synthesize kbguid;
 @synthesize accountUserId;
 @synthesize syncStatueDescription=_syncStatueDescription;
+@synthesize delegate;
 - (void) dealloc
 {
+    delegate = nil;
     [kbguid release];
     [accountUserId release];
     [_syncStatueDescription release];
@@ -47,50 +48,65 @@
     
     WizApiDownloadDeletedGuids* deleted = [[WizApiDownloadDeletedGuids alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
     deleted.serverVersion = [deletedVer integerValue];
-    //
-    WizApiUploadDeletedGuids* upDeleted = [[WizApiUploadDeletedGuids alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
-    //
+  
     WizApiDownloadTagList* tagList = [[WizApiDownloadTagList alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
     tagList.serverVersion = [tagVer integerValue];
     //
-    WizApiUploadTags* upTags = [[WizApiUploadTags alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
-    //
+
     WizApiDownloadDocumentList* documentList = [[WizApiDownloadDocumentList alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
     documentList.serverVersion = [documentVer integerValue];
     //
     WizApiDownloadAttachmentList* attachmentList = [[WizApiDownloadAttachmentList alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
     attachmentList.serverVersion = [attachmentVer integerValue];
     //
-    [apiQueque addObject:deleted];
-    [apiQueque addObject:upDeleted];
-    [apiQueque addObject:tagList];
-    [apiQueque addObject:upTags];
-    [apiQueque addObject:documentList];
-    [apiQueque addObject:attachmentList];
+    
+    if (WizSyncMetaAll == syncType) {
+        WizApiUploadTags* upTags = [[WizApiUploadTags alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
+        //
+        //
+        WizApiUploadDeletedGuids* upDeleted = [[WizApiUploadDeletedGuids alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
+        //
+        [apiQueque addObject:deleted];
+        [apiQueque addObject:upDeleted];
+        [apiQueque addObject:tagList];
+        [apiQueque addObject:upTags];
+        [apiQueque addObject:documentList];
+        [apiQueque addObject:attachmentList];
+        [upDeleted release];
+        [upTags release];
+    }
+    
+    else
+    {
+        [apiQueque addObject:deleted];
+        [apiQueque addObject:tagList];
+        [apiQueque addObject:documentList];
+        [apiQueque addObject:attachmentList];
+    }
     //
     [deleted release];
     [tagList release];
     [documentList release];
     [attachmentList release];
-    [upDeleted release];
-    [upTags release];
+
 }
 
 // never release any api
 - (void) wizApiEnd:(WizApi *)api withSatue:(enum WizApiStatue)statue
 {
     if (statue == WizApistatueError) {
-#warning do something end the sync process
+        [self.delegate didSyncMetaFaild];
     }
     else
     {
         NSInteger index = [apiQueque indexOfObject:api];
         if (index + 1 == [apiQueque count]) {
-            
+            [self.delegate didSyncMetaSucceed];
         }
         else
         {
             WizApi* nextApi = [apiQueque objectAtIndex:(index +1)];
+            [self.delegate didSyncMetaChangedStatue:@"asdfasdf"];
             [nextApi start];
         }
     }
@@ -108,9 +124,15 @@
         getAllVersion.delegate = self;
         [apiQueque addObject:getAllVersion];
         [getAllVersion release];
-        apiIndex = 0;
     }
     return self;
+}
+- (void) startSyncMeta
+{
+    if ([apiQueque count]) {
+        WizApi* api = [apiQueque objectAtIndex:0];
+        [api start];
+    }
 }
 
 @end

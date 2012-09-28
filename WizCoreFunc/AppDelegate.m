@@ -48,6 +48,7 @@
         groupSync.kbguid = each.kbguid;
         groupSync.accountUserId = accountUserId;
         [groupSync startSyncMeta];
+        break;
     }
     
 }

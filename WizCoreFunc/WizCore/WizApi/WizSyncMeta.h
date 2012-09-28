@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol WizSyncMetaDelegate
+- (void) didSyncMetaChangedStatue:(NSString*)discription;
+- (void) didSyncMetaSucceed;
+- (void) didSyncMetaFaild;
+@end
+
 enum WizSyncMetaType {
     WizSyncMetaOnlyDownload = 1,
     WizSyncMetaAll = 2,
@@ -18,4 +24,7 @@ enum WizSyncMetaType {
 @property (nonatomic, retain)   NSString* kbguid;
 @property (nonatomic, retain)   NSString* accountUserId;
 @property (nonatomic, readonly) NSString* syncStatueDescription;
+@property (nonatomic, assign) id<WizSyncMetaDelegate> delegate;
+- (id) initWithType:(enum WizSyncMetaType) type  kbguid:(NSString*)kb accountUserId:(NSString*)userId;
+- (void) startSyncMeta;
 @end
