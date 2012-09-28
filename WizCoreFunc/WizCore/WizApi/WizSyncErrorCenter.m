@@ -11,6 +11,7 @@
 #import "WizSyncDataCenter.h"
 
 #define WizErrorQuequeUnactiveToken @"WizErrorQuequeUnactiveToken"
+#define WizShowErrorSpaceTime           120
 
 @interface WizSyncErrorCenter () <WizApiLoginDelegate>
 @property (atomic, retain) NSMutableDictionary* syncDataDictionay;
@@ -80,7 +81,7 @@
     
     id<WizSyncShareParamsDelegate> wizSyncCenter = [WizSyncDataCenter shareInstance];
     [wizSyncCenter refreshApiurl:[NSURL URLWithString:apiUrl] kbguid:apiUrl];
-    [wizSyncCenter refreshToken:token kbguid:accountUserId];
+    [wizSyncCenter refreshToken:token accountUserId:accountUserId];
     //
     
     NSMutableArray* errorQueque = [self errorQuequeFor:WizErrorQuequeUnactiveToken];
@@ -117,13 +118,23 @@
 
     if([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet)
     {
-        [api reduceAttempTime];
-        [api start];
+        static NSDate* lastDateShowAlert = nil;
+        NSDate* now = [NSDate date];
+        if (lastDateShowAlert == nil || [lastDateShowAlert timeIntervalSinceDate:now] > WizShowErrorSpaceTime) {
+            [WizGlobals reportError:error];
+            lastDateShowAlert = now;
+        }
+        [api end];
     }
-    if ([error.domain isEqualToString:WizErrorDomain] && WizSyncErrorNullException == error.code) {
+    else if ([error.domain isEqualToString:WizErrorDomain] && WizSyncErrorNullException == error.code) {
         NSMutableArray* errorQueque = [self errorQuequeFor:WizErrorQuequeUnactiveToken];
         [errorQueque addObject:api];
         [self refreshToken];
+    }
+    else if ([error.domain isEqualToString:NSURLErrorDomain] && NSURLErrorTimedOut == error.code)
+    {
+        [WizGlobals reportError:error];
+        [api end];
     }
 }
 @end

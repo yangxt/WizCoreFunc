@@ -136,7 +136,19 @@
 
 - (void) uploadAttachmentMeta
 {
+    WizAttachment* attach = (WizAttachment*) self.uploadObject;
     
+    NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+	
+    [postParams setObject:attach.strGuid             forKey:@"attachment_guid"];
+    [postParams setObject:attach.strDocumentGuid           forKey:@"attachment_document_guid"];
+    [postParams setObject:[attach.strTitle stringByReplacingOccurrencesOfString:@":" withString:@"-"]            forKey:@"attachment_name"];
+    [postParams setObject:attach.dateModified                  forKey:@"dt_modified"];
+    [postParams setObject:self.fileMd5                       forKey:@"data_md5"];
+    [postParams setObject:self.fileMd5                        forKey:@"attachment_zip_md5"];
+    [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_info"];
+    [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_data"];
+    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_AttachmentPostSimpleData];
 }
 
 - (void) startUpload
@@ -162,11 +174,16 @@
     return YES;
 }
 
+
 - (void) onUploadObjectDataDone
 {
     [[WizFileManager shareManager] deleteFile:self.tempFilePath];
     if ([uploadObject isKindOfClass:[WizDocument class]]) {
         [self uploadDocumentMeta:YES];
+    }
+    else if ([uploadObject isKindOfClass:[WizAttachment class]])
+    {
+        [self uploadAttachmentMeta];
     }
 }
 
@@ -190,14 +207,31 @@
     }
 }
 #warning need to complete
+
+- (void) end
+{
+    if (self.statue == WizApistatueError) {
+        [self.delegate didUploadWizObjectDone:uploadObject];
+    }
+    else if (WizApistatueError == self.statue)
+    {
+        [self.delegate didUPloadWizObjectFaild:uploadObject];
+    }
+    [super end];
+}
+
 - (void) onPostDocumentMetaDone
 {
-    NSLog(@"done");
+    id<WizMetaDataBaseDelegate> db = [self groupDataBase];
+    [db setDocumentLocalChanged:uploadObject.strGuid changed:WizEditDocumentTypeNoChanged];
+    [self end];
 }
 
 - (void) onPostAttachmentMetaDone
 {
-    
+    id<WizMetaDataBaseDelegate> db = [self groupDataBase];
+    [db setDocumentLocalChanged:uploadObject.strGuid changed:WizEditDocumentTypeNoChanged];
+    [self end];
 }
 - (void) xmlrpcDoneSucced:(id)retObject forMethod:(NSString *)method
 {

@@ -60,17 +60,17 @@
     }
     return serverUrl;
 }
-- (NSString*) tokenForKbguid:(NSString *)kbguid
+- (NSString*) tokenForAccount:(NSString *)userId
 {
-    return [self.syncDataDictionary objectForKey:WizSyncKbguid];
+    return [self.syncDataDictionary objectForKey:userId];
 }
 - (void) refreshApiurl:(NSURL *)apiUrl kbguid:(NSString *)kbguid
 {
     [self.syncDataDictionary setObject:apiUrl forKey:kbguid];
 }
-- (void) refreshToken:(NSString *)token kbguid:(NSString *)kbguid
+- (void) refreshToken:(NSString *)token accountUserId:(NSString *)userId
 {
-    [self.syncDataDictionary setObject:token forKey:WizSyncKbguid];
+    [self.syncDataDictionary setObject:token forKey:userId];
 }
 
 @end

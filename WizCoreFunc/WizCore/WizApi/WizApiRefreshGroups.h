@@ -7,7 +7,9 @@
 //
 
 #import "WizApi.h"
-
+@protocol WizApiRefreshGroupsDelegate <NSObject>
+- (void) didRefreshGroupsSucceed;
+@end
 @interface WizApiRefreshGroups : WizApi
-
+@property (nonatomic, assign) id<WizApiRefreshGroupsDelegate> delegate;
 @end

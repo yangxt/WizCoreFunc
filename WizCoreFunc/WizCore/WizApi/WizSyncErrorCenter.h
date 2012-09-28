@@ -11,7 +11,8 @@
 
 enum WizSyncErrorCode {
     WizSyncErrorNullException = 399,
-    };
+    WizSyncErrorTokenUnactive = 301,
+};
 
 @interface WizSyncErrorCenter : NSObject
 + (id) shareInstance;

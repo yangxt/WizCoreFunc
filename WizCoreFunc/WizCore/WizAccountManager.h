@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#define WizDefalutAccount       @"WizDefalutAccount"
+
 @class WizAccount;
 @interface WizAccountManager : NSObject
 + (WizAccountManager *) defaultManager;
@@ -17,8 +19,7 @@
 - (BOOL)                registerActiveAccount:(NSString*)userId;
 - (void)                resignAccount;
 - (NSString*)           activeAccountUserId;
-- (void)                addAccount: (NSString*)userId password:(NSString*)password;
-- (void)                changeAccountPassword: (NSString*)userId password:(NSString*)password;
+- (void)                updateAccount:(NSString*)userId password:(NSString*)passwrod;
 - (void)                removeAccount: (NSString*)userId;
 //
 - (BOOL)                registerActiveGroup:(NSString*)groupGuid;

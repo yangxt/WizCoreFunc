@@ -66,17 +66,21 @@
 
 - (void) end
 {
-    switch (self.statue) {
-        case WizApiStatueBusy:
-            [self.apiDelegate wizApiEnd:self withSatue:WizApiStatueNormal];
-            break;
-        case WizApistatueError:
-            [self.apiDelegate wizApiEnd:self withSatue:WizApistatueError];
-        default:
-            [self.apiDelegate wizApiEnd:self withSatue:WizApiStatueNormal];
-            break;
-    }
+    enum WizApiStatue oldStatue = _statue;
     _statue = WizApiStatueNormal;
+    @synchronized(self.apiDelegate)
+    {
+        switch (oldStatue) {
+            case WizApiStatueBusy:
+                [self.apiDelegate wizApiEnd:self withSatue:WizApiStatueNormal];
+                break;
+            case WizApistatueError:
+                [self.apiDelegate wizApiEnd:self withSatue:WizApistatueError];
+            default:
+                [self.apiDelegate wizApiEnd:self withSatue:WizApiStatueNormal];
+                break;
+        }
+    }
 }
 
 -(void) addCommonParams: (NSMutableDictionary*)postParams
@@ -85,7 +89,7 @@
 	[postParams setObject:@"normal" forKey:@"program_type"];
     [postParams setObject:[NSNumber numberWithInt:4] forKey:@"api_version"];
 	//
-    NSString* token = [[WizSyncDataCenter shareInstance] tokenForKbguid:self.kbGuid];
+    NSString* token = [[WizSyncDataCenter shareInstance] tokenForAccount:self.accountUserId];
 	if (token != nil)
 	{
 		[postParams setObject:token forKey:@"token"];
@@ -137,11 +141,28 @@
 
 - (NSInteger) listCount
 {
-    return 39;
+    return 50;
 }
 
 - (void) changeStatue:(enum WizApiStatue)statue
 {
     _statue = statue;
+}
+
+- (id) initWithKbguid:(NSString *)kbguid_ accountUserId:(NSString *)accountUserId_ apiDelegate:(id<WizApiDelegate>)delegate
+{
+    self = [super init];
+    if (self) {
+        attemptTime = WizApiAttemptTimeMax;
+        kbGuid = [kbguid_ retain];
+        accountUserId = [accountUserId_ retain];
+        apiDelegate = delegate;
+    }
+    return self;
+}
+
+- (void) xmlrpcDoneSucced:(id)retObject forMethod:(NSString *)method
+{
+    
 }
 @end

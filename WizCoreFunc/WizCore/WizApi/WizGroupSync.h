@@ -11,6 +11,9 @@
 
 
 @interface WizGroupSync : NSObject
+@property (nonatomic, retain) NSString* kbguid;
+@property (nonatomic, retain) NSString* accountUserId;
+
 - (void) downloadWizObject:(WizObject*)wizObject;
 - (void) uploadWizObject:(WizObject*)wizObject;
 - (void) startSyncMeta;

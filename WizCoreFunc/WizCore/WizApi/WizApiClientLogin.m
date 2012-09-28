@@ -8,6 +8,7 @@
 
 #import "WizApiClientLogin.h"
 #import "WizSyncDataCenter.h"
+#import "WizSyncErrorCenter.h"
 
 @implementation WizApiClientLogin
 @synthesize password;
@@ -38,6 +39,13 @@
 - (void) onError:(NSError *)error
 {
     [self.delegate didClientLoginFaild:error];
+    if ([error.domain isEqualToString:WizErrorDomain] && WizSyncErrorTokenUnactive == error.code) {
+        
+    }
+    else
+    {
+        [super onError:error];
+    }
 }
 
 - (void) loginSucceed:(id)ret
@@ -49,7 +57,7 @@
     
     WizSyncDataCenter* dataCenter = [WizSyncDataCenter shareInstance];
     [dataCenter refreshApiurl:[NSURL URLWithString:apiUrl] kbguid:kbGuid];
-    [dataCenter refreshToken:token kbguid:kbGuid];
+    [dataCenter refreshToken:token accountUserId:self.accountUserId];
     
     id<WizSettingsDbDelegate> setDb = [[WizDbManager shareInstance] getGlobalSettingDb];
     NSString* myWizEmail = [ret objectForKey:@"mywiz_email"];

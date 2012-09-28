@@ -18,8 +18,12 @@
 
 #import "WizUploadObject.h"
 
+#import "WizApiDownloadAttachmentList.h"
 
-@interface AppDelegate () <WizApiLoginDelegate>
+
+#import "WizGroupSync.h"
+
+@interface AppDelegate () <WizApiLoginDelegate, WizApiRefreshGroupsDelegate>
 {
     
 }
@@ -32,22 +36,61 @@
 {
     
 }
-
+- (void) didRefreshGroupsSucceed
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    
+    NSString* accountUserId = @"yishuiliunian@gmail.com";
+    NSArray* groups = [db groupsByAccountUserId:accountUserId];
+    
+    for (WizGroup* each in groups) {
+        WizGroupSync* groupSync = [[WizGroupSync alloc] init];
+        groupSync.kbguid = each.kbguid;
+        groupSync.accountUserId = accountUserId;
+        [groupSync startSyncMeta];
+    }
+    
+}
 - (void) didClientLoginSucceed:(NSString *)accountUserId retObject:(id)ret
 {
     
     NSString* kbguid = [ret objectForKey:@"kb_guid"];
     
-    id<WizMetaDataBaseDelegate> db = [[WizDbManager shareInstance] getMetaDataBaseForAccount:accountUserId kbGuid:kbguid];
-    WizDocument* doc = [db documentFromGUID:@"c56e99f2-3948-4a80-8568-e11106642336"];
+//    id<WizMetaDataBaseDelegate> db = [[WizDbManager shareInstance] getMetaDataBaseForAccount:accountUserId kbGuid:kbguid];
     
-    WizUploadObject* downloadDeletedGuids = [[WizUploadObject alloc] init];
-    downloadDeletedGuids.kbGuid = kbguid;
-    downloadDeletedGuids.accountUserId = accountUserId;
-    downloadDeletedGuids.uploadObject = doc;
+    WizApiRefreshGroups* refreshGroups = [[WizApiRefreshGroups alloc] init];
+    refreshGroups.kbGuid = kbguid;
+    refreshGroups.accountUserId = accountUserId;
+    refreshGroups.delegate = self;
+    [refreshGroups start];
     
-    [downloadDeletedGuids start];
+//    WizDocument* doc = [db documentFromGUID:@"c56e99f2-3948-4a80-8568-e11106642336"];
+//    
+//    WizUploadObject* downloadDeletedGuids = [[WizUploadObject alloc] init];
+//    downloadDeletedGuids.kbGuid = kbguid;
+//    downloadDeletedGuids.accountUserId = accountUserId;
+//    downloadDeletedGuids.uploadObject = doc;
+//    
+//    [downloadDeletedGuids start];
     
+//    WizApiDownloadAttachmentList* attachment = [[WizApiDownloadAttachmentList alloc] init];
+//    attachment.kbGuid = kbguid;
+//    attachment.accountUserId = accountUserId;
+//    [attachment start];
+
+    
+//    WizGroupSync* groupSync = [[WizGroupSync alloc] init];
+//    groupSync.kbguid = kbguid;
+//    groupSync.accountUserId = accountUserId;
+//    [groupSync startSyncMeta];
+//    NSArray* recentsDocs = [db recentDocuments];
+//    
+//    NSLog(@"recent %d",[recentsDocs count]);
+//    
+//    for (WizDocument* each in recentsDocs) {
+//        [groupSync downloadWizObject:each];
+//    }
+//    
 }
 - (void)dealloc
 {

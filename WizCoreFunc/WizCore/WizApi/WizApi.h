@@ -66,4 +66,6 @@ const static NSInteger WizApiAttemptTimeMax = 5;
 - (void) changeStatue:(enum WizApiStatue) statue;
 
 - (NSInteger) listCount;
+
+- (id) initWithKbguid:(NSString*)kbguid accountUserId:(NSString*)accountUserId apiDelegate:(id<WizApiDelegate>)delegate;
 @end

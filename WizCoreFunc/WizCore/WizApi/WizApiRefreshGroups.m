@@ -11,6 +11,13 @@
 #import "WizAccountManager.h"
 
 @implementation WizApiRefreshGroups
+@synthesize delegate;
+
+- (void) dealloc
+{
+    delegate = nil;
+    [super dealloc];
+}
 
 - (BOOL) start
 {
@@ -27,6 +34,7 @@
     //
     [settingDb updateGroups:retObject accountUserId:self.accountUserId];
     
+    [self.delegate didRefreshGroupsSucceed];
     [super end];
 }
 

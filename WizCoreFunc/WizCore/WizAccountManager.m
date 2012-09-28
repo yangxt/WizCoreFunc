@@ -10,8 +10,8 @@
 #import "WizAccount.h"
 
 #import "WizFileManager.h"
+#import "WizDbManager.h"
 
-#define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
 #define KeyOfUserId                 @"userId"
 #define KeyOfPassword               @"password"
@@ -23,17 +23,9 @@
 
 //
 @interface WizAccountManager()
-{
-    NSString* activeAccountUserId_;
-    NSTimer* timer;
-}
-@property (nonatomic, retain) NSTimer* timer;
-@property (atomic, retain) NSString* activeAccountUserId_;
 @end
 
 @implementation WizAccountManager
-@synthesize timer;
-@synthesize activeAccountUserId_;
 + (id) shareManager;
 {
     static WizAccountManager* shareManager = nil;
@@ -69,5 +61,95 @@
 {
     return;
 }
+//over singlong
 
+- (NSArray*) allAccountUserIds
+{
+    NSArray* accounts = [[[WizDbManager shareInstance] getGlobalSettingDb] allAccounts];
+    NSMutableArray* accountUserIds = [NSMutableArray array];
+    for (WizAccount* account in accounts) {
+        [accountUserIds addObject:account.strUserId];
+    }
+    return accountUserIds;
+}
+
+- (BOOL) canFindAccount:(NSString *)userId
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    WizAccount* account = [db accountFromUserId:userId];
+    if (nil == account) {
+        return NO;
+    }
+    return YES;
+}
+
+- (NSString*) accountPasswordByUserId:(NSString *)userID
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    WizAccount* account = [db accountFromUserId:userID];
+    if (account) {
+        return account.strPassword;
+    }
+    return nil;
+}
+
+- (BOOL) registerActiveAccount:(NSString *)userId
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    [db setStrSettingSettingVelue:userId forKey:WizSettingGlobalActiveAccount accountUserId:nil kbguid:nil];
+    
+#warning do something to setup enviroment
+    return YES;
+}
+
+- (void) resignAccount
+{
+#warning do something to clear enviroment
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    [db setStrSettingSettingVelue:@"" forKey:WizSettingGlobalActiveAccount accountUserId:nil kbguid:nil];
+}
+- (NSString*) activeAccountUserId
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    NSString* userId = [db strSettingValueForKey:WizSettingGlobalActiveAccount accountUserId:nil kbguid:nil];
+    if (userId) {
+        return userId;
+    }
+    return WizDefalutAccount;
+}
+
+- (void) updateAccount:(NSString *)userId password:(NSString *)passwrod
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    [db updateAccount:userId password:passwrod];
+}
+
+- (void) removeAccount:(NSString *)userId
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    [db deleteAccountByUserId:userId];
+}
+//
+
+- (BOOL) registerActiveGroup:(NSString *)groupGuid
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    
+    [db setStrSettingSettingVelue:groupGuid forKey:WizSettingGlobalActiveGroup accountUserId:nil kbguid:nil];
+    return YES;
+}
+- (void) resignActiveGroup
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    [db setStrSettingSettingVelue:@"" forKey:WizSettingGlobalActiveGroup accountUserId:nil kbguid:nil];
+}
+- (NSString*) activeGroupGuid
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    NSString* userId = [db strSettingValueForKey:WizSettingGlobalActiveGroup accountUserId:nil kbguid:nil];
+    if (userId) {
+        return userId;
+    }
+    return WizDefalutAccount;
+}
 @end

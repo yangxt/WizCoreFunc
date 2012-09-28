@@ -56,10 +56,11 @@
     currentVersion = localVersion;
     if (self.serverVersion !=0 && localVersion >= self.serverVersion) {
         [super end];
+        return;
     }
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [postParams setObject:[NSNumber numberWithInt:[self listCount]] forKey:@"count"];
-//    [postParams setObject:[NSNumber numberWithInt:0] forKey:@"first"];
+    
     [postParams setObject:[NSNumber numberWithInt:localVersion] forKey:@"version"];
     [self executeXmlRpcWithArgs:postParams methodKey:[self getMethodName]];
 }

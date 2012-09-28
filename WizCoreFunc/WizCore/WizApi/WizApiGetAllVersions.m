@@ -32,6 +32,7 @@
     if ([method isEqualToString:SyncMethod_GetAllObjectVersion]) {
         [self.delegate didGetAllObjectVersions:retObject];
     }
+    [self end];
 }
 
 
