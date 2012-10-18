@@ -67,4 +67,5 @@ enum WizEditDocumentType {
 @property (atomic, retain) NSString* gpsLevel2;
 @property (atomic, retain) NSString* gpsLevel3;
 @property (atomic, retain) NSString* gpsDescription;
+- (NSDictionary*) getModelDictionary;
 @end

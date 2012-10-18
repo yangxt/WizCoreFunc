@@ -11,6 +11,7 @@
 
 #import "WizFileManager.h"
 #import "WizDbManager.h"
+#import "WizSyncCenter.h"
 
 #define KeyOfAccounts               @"accounts"
 #define KeyOfUserId                 @"userId"
@@ -23,10 +24,11 @@
 
 //
 @interface WizAccountManager()
+
 @end
 
 @implementation WizAccountManager
-+ (id) shareManager;
++ (id) defaultManager;
 {
     static WizAccountManager* shareManager = nil;
     @synchronized(self)
@@ -39,7 +41,7 @@
 }
 + (id) allocWithZone:(NSZone *)zone
 {
-    return [[self shareManager] retain];
+    return [[self defaultManager] retain];
 }
 - (id) retain
 {
@@ -93,12 +95,12 @@
     return nil;
 }
 
+
 - (BOOL) registerActiveAccount:(NSString *)userId
 {
     id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
     [db setStrSettingSettingVelue:userId forKey:WizSettingGlobalActiveAccount accountUserId:nil kbguid:nil];
-    
-#warning do something to setup enviroment
+    [[WizSyncCenter defaultCenter] refreshGroupsListFor:userId];
     return YES;
 }
 
@@ -151,5 +153,10 @@
         return userId;
     }
     return WizDefalutAccount;
+}
+- (NSArray*) groupsForAccount:(NSString *)accountUserId
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    return [db groupsByAccountUserId:accountUserId];
 }
 @end

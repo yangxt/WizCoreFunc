@@ -8,6 +8,8 @@
 
 #import "WizSyncDownload.h"
 #import "WizDownloadObject.h"
+#import "WizNotificationCenter.h"
+
 #define WizSyncDocumentMaxToolCount 4
 
 @interface WizSyncDownload () <WizApiDelegate, WizApiDownloadObjectDelegate>
@@ -68,7 +70,9 @@
 }
 - (void) didDownloadObjectSucceed:(WizObject *)obj
 {
-    NSLog(@"download succeed %@",obj.strTitle);
+    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
+    [WizNotificationCenter addDocumentGuid:obj.strGuid toUserInfo:userInfo];
+    [[WizNotificationCenter defaultCenter] postNotificationName:WizNMDidDownloadDocument object:nil userInfo:userInfo];
 }
 
 - (void) startDownload
@@ -103,6 +107,20 @@
     else
     {
         
+    }
+}
+
+- (void) stopDownload
+{
+    @synchronized(downloadObjectQueque)
+    {
+        [downloadObjectQueque removeAllObjects];
+    }
+    @synchronized(downloadTools)
+    {
+        for (WizDownloadObject* each in downloadTools) {
+            [each cancel];
+        }
     }
 }
 @end

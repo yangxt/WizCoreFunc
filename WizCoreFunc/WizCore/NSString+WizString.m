@@ -15,10 +15,25 @@
     return [[self pinyinFirstLetter] compare:[string pinyinFirstLetter]];
 }
 
+- (NSComparisonResult) compareChinesePinyin:(NSString*)string
+{
+//    NSString* thPinyin = [self chinesePinYin];
+//    NSString* comPinyin = [string chinesePinYin];
+//    
+//    NSLog(@"this pinyin is %@  compare pinyin is %@ %d",thPinyin, comPinyin, [thPinyin compare:comPinyin]);
+//    
+//    
+    return [[self chinesePinYin] compare:[string chinesePinYin]];
+}
 //
 - (NSString*) pinyinFirstLetter
 {
     return [WizGlobals pinyinFirstLetter:self];
+}
+
+- (NSString*) chinesePinYin
+{
+    return [WizGlobals chinesePinyinString:self];
 }
 - (BOOL) isBlock
 {

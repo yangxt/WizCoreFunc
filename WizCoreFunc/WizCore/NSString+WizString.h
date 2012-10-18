@@ -39,4 +39,6 @@
 - (NSInteger) indexOf:(NSString *)find compareOptions:(NSStringCompareOptions)mask;
 
 - (BOOL) checkHasInvaildCharacters;
+
+- (NSComparisonResult) compareChinesePinyin:(NSString*)string;
 @end

@@ -175,6 +175,16 @@ static NSArray* htmlArray;
     return  [[NSString stringWithFormat:@"%c",pinyinFirstLetter([string characterAtIndex:0])] uppercaseString];
 }
 
++ (NSString*) chinesePinyinString:(NSString*)string
+{
+    NSMutableString* pinYinResult = [NSMutableString string];
+    for (int i = 0; i < string.length; i++) {
+        NSString *singlePinyinLetter=[[NSString stringWithFormat:@"%c",pinyinFirstLetter([string characterAtIndex:i])]uppercaseString];
+        [pinYinResult appendString:singlePinyinLetter];
+    }
+    return pinYinResult;
+}
+
 + (BOOL) checkFileIsEncry:(NSString*)filePath
 {
     NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:filePath];

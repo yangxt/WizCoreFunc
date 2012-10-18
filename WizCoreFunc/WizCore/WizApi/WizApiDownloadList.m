@@ -78,22 +78,30 @@
 
 - (void) onDownloadList:(NSArray*)list
 {
-    [self updateLocaList:(NSArray*)list];
-    int64_t version = [self getNewVersion:list];
-    if (version > currentVersion) {
-        [self updateLocalVersion:version];
-        currentVersion = version;
-        if (self.serverVersion !=0 && version >= self.serverVersion) {
-            [self end];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [self updateLocaList:(NSArray*)list];
+        int64_t version = [self getNewVersion:list];
+        if (version > currentVersion) {
+            [self updateLocalVersion:version];
+            currentVersion = version;
+            if (self.serverVersion !=0 && version >= self.serverVersion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self end];
+                });
+                return;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self callDownloadList];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self end];
+            });
             return;
         }
-        [self callDownloadList];
-    }
-    else
-    {
-        [self end];
-        return;
-    }
+    });
 }
 
 - (void) xmlrpcDoneSucced:(id)retObject forMethod:(NSString *)method

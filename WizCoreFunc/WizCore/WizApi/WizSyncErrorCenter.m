@@ -9,6 +9,7 @@
 #import "WizSyncErrorCenter.h"
 #import "WizApiClientLogin.h"
 #import "WizSyncDataCenter.h"
+#import "WizAccountManager.h"
 
 #define WizErrorQuequeUnactiveToken @"WizErrorQuequeUnactiveToken"
 #define WizShowErrorSpaceTime           120
@@ -100,9 +101,8 @@
         return;
     }
     //
-#warning data must be got from dataBase
-    self.refreshTokenTool.accountUserId = @"yishuiliunian@gmail.com";
-    self.refreshTokenTool.password = @"654321";
+    self.refreshTokenTool.accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    self.refreshTokenTool.password = [[WizAccountManager defaultManager] accountPasswordByUserId:self.refreshTokenTool.accountUserId];
     self.refreshTokenTool.delegate = self;
     [self.refreshTokenTool start];
     
@@ -114,8 +114,6 @@
         [api end];
         return;
     }
-
-
     if([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet)
     {
         static NSDate* lastDateShowAlert = nil;
@@ -132,6 +130,11 @@
         [self refreshToken];
     }
     else if ([error.domain isEqualToString:NSURLErrorDomain] && NSURLErrorTimedOut == error.code)
+    {
+        [WizGlobals reportError:error];
+        [api end];
+    }
+    else
     {
         [WizGlobals reportError:error];
         [api end];

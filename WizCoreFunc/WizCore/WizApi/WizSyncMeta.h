@@ -27,4 +27,5 @@ enum WizSyncMetaType {
 @property (nonatomic, assign) id<WizSyncMetaDelegate> delegate;
 - (id) initWithType:(enum WizSyncMetaType) type  kbguid:(NSString*)kb accountUserId:(NSString*)userId;
 - (void) startSyncMeta;
+- (void) stopSyncMeta;
 @end

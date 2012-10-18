@@ -13,4 +13,5 @@
 @property (nonatomic, retain) NSString* accountUserId;
 
 - (void) shouldDownload:(WizObject*)obj;
+- (void) stopDownload;
 @end

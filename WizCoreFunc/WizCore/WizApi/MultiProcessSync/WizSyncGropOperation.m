@@ -1,12 +1,12 @@
 //
-//  WizSyncMeta.m
-//  WizCoreFunc
+//  WizSyncGropOperation.m
+//  WizGroup
 //
-//  Created by wiz on 12-9-28.
+//  Created by wiz on 12-10-18.
 //  Copyright (c) 2012年 cn.wiz. All rights reserved.
 //
 
-#import "WizSyncMeta.h"
+#import "WizSyncGropOperation.h"
 #import "WizApiDownloadDeletedGuids.h"
 #import "WizApiDownloadTagList.h"
 #import "WizApiDownloadDocumentList.h"
@@ -16,42 +16,39 @@
 #import "WizUploadObject.h"
 #import "WizDownloadObject.h"
 #import "WizApiGetAllVersions.h"
-@interface WizSyncMeta () <WizApiGetAllVersionsDelegate, WizApiDelegate>
+//
+#import "WizSyncMeta.h"
+@interface WizSyncGropOperation () <WizApiDelegate, WizApiGetAllVersionsDelegate>
 {
+    BOOL isWorking;
     NSMutableArray* apiQueque;
     NSInteger   syncType;
     NSInteger   apiIndex;
-    BOOL isStop;
 }
-@end
 
-@implementation WizSyncMeta
+@end
+@implementation WizSyncGropOperation
 @synthesize kbguid;
 @synthesize accountUserId;
-@synthesize syncStatueDescription=_syncStatueDescription;
-@synthesize delegate;
+
 - (void) dealloc
 {
-    delegate = nil;
+    [apiQueque release];
     [kbguid release];
     [accountUserId release];
-    [_syncStatueDescription release];
-    [apiQueque release];
     [super dealloc];
 }
-
-
 - (void) setupSyncTools
 {
     WizApiDownloadDeletedGuids* deleted = [[WizApiDownloadDeletedGuids alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
-
+    
     
     WizApiDownloadTagList* tagList = [[WizApiDownloadTagList alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
-
+    
     //
     
     WizApiDownloadDocumentList* documentList = [[WizApiDownloadDocumentList alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
-
+    
     //
     WizApiDownloadAttachmentList* attachmentList = [[WizApiDownloadAttachmentList alloc] initWithKbguid:self.kbguid accountUserId:self.accountUserId apiDelegate:self];
     //
@@ -84,7 +81,22 @@
     [documentList release];
     [attachmentList release];
 }
-
+- (id) initWithBbguid:(NSString*)kb accountUserId:(NSString*)userId
+{
+    self = [super init];
+    if (self) {
+        apiQueque = [[NSMutableArray alloc] init];
+        kbguid = [kb retain];
+        accountUserId = [userId retain];
+        WizApiGetAllVersions* getAllVersion = [[WizApiGetAllVersions alloc] initWithKbguid:kb accountUserId:userId apiDelegate:self];
+        getAllVersion.delegate = self;
+        syncType = WizSyncMetaOnlyDownload;
+        [apiQueque addObject:getAllVersion];
+        [getAllVersion release];
+        [self setupSyncTools];
+    }
+    return self;
+}
 - (WizApi*) getSyncTool:(Class)classKind
 {
     for (WizApi* each in apiQueque) {
@@ -111,66 +123,37 @@
     documentList.serverVersion = [documentVer integerValue];
     deletedList.serverVersion = [deletedVer integerValue];
     tagList.serverVersion = [tagVer integerValue];
-
+    
 }
-
-// never release any api
 - (void) wizApiEnd:(WizApi *)api withSatue:(enum WizApiStatue)statue
 {
-    if (statue == WizApistatueError || isStop) {
-        [self.delegate didSyncMetaFaild];
+    if (statue == WizApistatueError || !isWorking) {
+        
     }
     else
     {
         apiIndex ++;
         if (apiIndex >= [apiQueque count]) {
-            [self.delegate didSyncMetaSucceed];
+            isWorking = NO;
         }
         else
         {
             WizApi* nextApi = [apiQueque objectAtIndex:apiIndex];
-            [self.delegate didSyncMetaChangedStatue:@"asdfasdf"];
             [nextApi start];
         }
     }
 }
-
-- (id) initWithType:(enum WizSyncMetaType) type  kbguid:(NSString*)kb accountUserId:(NSString*)userId
+- (void) main
 {
-    self = [super init];
-    if (self) {
-        apiQueque = [[NSMutableArray alloc] init];
-        syncType = type;
-        kbguid = [kb retain];
-        accountUserId = [userId retain];
-        WizApiGetAllVersions* getAllVersion = [[WizApiGetAllVersions alloc] initWithKbguid:kb accountUserId:userId apiDelegate:self];
-        getAllVersion.delegate = self;
-        [apiQueque addObject:getAllVersion];
-        [getAllVersion release];
-        apiIndex = 0;
-        isStop = NO;
-        [self setupSyncTools];
-    }
-    return self;
-}
-- (void) startSyncMeta
-{
-    isStop = NO;
+    apiIndex = 0;
     if ([apiQueque count]) {
         WizApi* api = [apiQueque objectAtIndex:0];
         [api start];
     }
-}
-- (void) stopSyncMeta
-{
-    isStop = YES;
-    if (apiIndex >= [apiQueque count]) {
-        [self.delegate didSyncMetaSucceed];
+    isWorking = YES;
+    while (isWorking) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
-    else
-    {
-        WizApi* nextApi = [apiQueque objectAtIndex:apiIndex];
-        [nextApi cancel];
-    }
+    NSLog(@"work!");
 }
 @end

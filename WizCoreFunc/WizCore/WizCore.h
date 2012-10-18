@@ -10,5 +10,5 @@
 
 
 @interface WizCore : NSObject
-+ (void) test;
++ (void) addNewDocument:(NSString*)sourceFilesPath  document:(WizDocument*)doc toKbguid:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 @end

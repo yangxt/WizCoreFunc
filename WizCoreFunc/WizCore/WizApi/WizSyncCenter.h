@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface WizSyncCenter : NSObject
++ (WizSyncCenter*) defaultCenter;
+- (void) refreshGroupsListFor:(NSString*)accountUserId;
+- (void) refreshGroupData:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
+- (void) downloadDocument:(WizDocument*)doc kbguid:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 
+//
+- (void) testSyncKb:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 @end

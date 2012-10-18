@@ -90,4 +90,19 @@
     [self.uploadTool shouldUpload:wizObject];
 }
 
+- (void) stopSync
+{
+    if (self.syncMetaTool) {
+        [self.syncMetaTool stopSyncMeta];
+    }
+    if(self.downloadTool)
+    {
+        [self.downloadTool stopDownload];
+    }
+    if(self.uploadTool)
+    {
+        [self.uploadTool stopUpload];
+    }
+}
+
 @end

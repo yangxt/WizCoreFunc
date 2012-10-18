@@ -41,6 +41,9 @@
         return NO;
     }
     _statue = WizApiStatueBusy;
+    
+    //
+    NSLog(@"start %@",[self class]);
     return YES;
 }
 

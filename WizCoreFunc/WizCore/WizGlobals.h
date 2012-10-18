@@ -35,7 +35,28 @@
 //
 #define WizUpdateError              @"UpdateError"
 //
+//CGFloat WizStatusBarHeight(void) {
+//    if ([[UIApplication sharedApplication] isStatusBarHidden]) return 0.0;
+//    if (UIInterfaceOrientationIsLandscape(PPInterfaceOrientation()))
+//        return [[UIApplication sharedApplication] statusBarFrame].size.width;
+//    else
+//        return [[UIApplication sharedApplication] statusBarFrame].size.height;
+//}
 
+//UIInterfaceOrientation WizInterfaceOrientation(void) {
+//	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+//	return orientation;
+//}
+//
+//CGRect WizScreenBounds(void) {
+//	CGRect bounds = [UIScreen mainScreen].bounds;
+//	if (UIInterfaceOrientationIsLandscape(WizInterfaceOrientation())) {
+//		CGFloat width = bounds.size.width;
+//		bounds.size.width = bounds.size.height;
+//		bounds.size.height = width;
+//	}
+//	return bounds;
+//}
 
 #define WizLog(s,...) logTofile(__FILE__,(char *)__FUNCTION__ ,__LINE__,s,##__VA_ARGS__)
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...);
@@ -90,6 +111,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 //
 + (NSInteger)fileLength:(NSString*)path;
 + (NSString*) pinyinFirstLetter:(NSString *)string;
++ (NSString*) chinesePinyinString:(NSString*)string;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (BOOL) checkAttachmentTypeIsHtml:(NSString *)attachmentType;
 + (UIImage*) attachmentNotationImage:(NSString*)type;

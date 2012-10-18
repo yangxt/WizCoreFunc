@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "WizCore.h"
 #import "WizApiClientLogin.h"
 #import "WizApiRefreshGroups.h"
 #import "WizApiDownloadDeletedGuids.h"
@@ -22,6 +22,10 @@
 
 
 #import "WizGroupSync.h"
+
+#import "WizFileManager.h"
+
+#import "WizAccountManager.h"
 
 @interface AppDelegate () <WizApiLoginDelegate, WizApiRefreshGroupsDelegate>
 {
@@ -47,11 +51,13 @@
     groupSync.kbguid = kbguid;
     groupSync.accountUserId = accountUserId;
     
-    id<WizMetaDataBaseDelegate> db = [[WizDbManager shareInstance] getMetaDataBaseForAccount:accountUserId kbGuid:kbguid];
     
-    WizDocument* doc = [db documentFromGUID:@"fed19487-26c9-4c61-88d4-6aed1bc1cd29"];
+    [NSTimer scheduledTimerWithTimeInterval:30 target:groupSync selector:@selector(stopSync) userInfo:nil repeats:NO];
     
-    [groupSync uploadWizObject:doc];
+    WizAccountManager* accountManager = [WizAccountManager defaultManager];
+    [accountManager updateAccount:@"yishuiliunian@gmail.com" password:@"654321"];
+    [accountManager registerActiveAccount:accountUserId];
+    
 }
 - (void) didClientLoginSucceed:(NSString *)accountUserId retObject:(id)ret
 {

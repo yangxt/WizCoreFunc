@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #define EditTempDirectory   @"EditTempDirectory"
 
-//const NSString*  DocumentFileIndexName = @"index.html";
-//const NSString*  DocumentFileMobileName = @"wiz_mobile.html";
-//const NSString*  DocumentFileAbstractName = @"wiz_abstract.html";
-//const NSString*  DocumentFileFullName = @"wiz_full.html";
+#define  DocumentFileIndexName  @"index.html"
+#define  DocumentFileMobileName  @"wiz_mobile.html"
+#define  DocumentFileAbstractName  @"wiz_abstract.html"
+#define  DocumentFileFullName  @"wiz_full.html"
 
 
 @interface WizFileManager : NSFileManager
@@ -23,7 +23,6 @@
 - (NSString*) getDocumentFilePath:(NSString*)documentFileName   documentGUID:(NSString*)documentGuid    accountUserId:(NSString*)accountUserId;
 //
 - (NSString*) documentIndexFilesPath:(NSString*)documentGUID    accountUserId:(NSString*)accountUserId;
-- (BOOL)      removeObjectPath:(NSString*)guid                  accountUserId:(NSString*)accountUserId;
 - (long long) folderTotalSizeAtPath:(NSString*) folderPath;
 //
 - (NSString*) downloadObjectTempFilePath:(NSString*)objGuid accountUserId:(NSString*)userId;

@@ -26,4 +26,5 @@
 - (void)                resignActiveGroup;
 - (NSString*)           activeGroupGuid;
 //
+- (NSArray*)    groupsForAccount:(NSString*)accountUserId;
 @end

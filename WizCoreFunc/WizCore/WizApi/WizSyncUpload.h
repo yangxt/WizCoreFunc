@@ -12,4 +12,5 @@
 @property (nonatomic, retain) NSString* kbguid;
 @property (nonatomic, retain) NSString* accountUserId;
 - (void) shouldUpload:(WizObject*)obj;
+- (void) stopUpload;
 @end

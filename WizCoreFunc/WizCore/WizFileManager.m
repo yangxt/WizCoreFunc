@@ -205,16 +205,6 @@
     return [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
 }
 
-- (BOOL) removeObjectPath:(NSString*)guid
-{
-    NSString* objectPath = [self objectFilePath:guid];
-    return [self removeItemAtPath:objectPath error:nil];
-}
-//editDocumentAndAttachment
-- (NSString*) attachmentTempDirectory
-{
-    return [self objectFilePath:ATTACHMENTTEMPFLITER];
-}
 - (long long) fileSizeAtPath:(NSString*) filePath{
     if ([self fileExistsAtPath:filePath]){
         return [[self attributesOfItemAtPath:filePath error:nil] fileSize];
@@ -238,29 +228,23 @@
         }
     return folderSize;
 }
-- (NSString*) getAttachmentSourceFileName
+- (NSString*) getDocumentFilePath:(NSString *)documentFileName documentGUID:(NSString *)documentGuid accountUserId:(NSString *)accountUserId
 {
-     NSString* objectPath = [[self editingTempDirectory] stringByAppendingPathComponent:@"index_files"];
-    [[WizFileManager shareManager] ensurePathExists:objectPath];
-    return [objectPath stringByAppendingPathComponent:[WizGlobals genGUID]];
-}
-- (NSInteger) activeAccountFolderSize
-{
-    NSString* path = [self accountPath];
-    return [self folderTotalSizeAtPath:path];
-}
-- (NSString*) searchHistoryFilePath
-{
-    return [self documentFile:@"SearchHistoryDir" fileName:@"history.dat"];
-}
-- (NSString*) editingTempDirectory
-{
-    return [self objectFilePath:EditTempDirectory];
+    NSString* objectPath = [self wizObjectFilePath:documentGuid accountUserId:accountUserId];
+    return [objectPath stringByAppendingPathComponent:documentFileName];
 }
 
+- (NSString*) documentIndexFilesPath:(NSString *)documentGUID accountUserId:(NSString *)accountUserId
+{
+    NSString* objectPath = [self wizObjectFilePath:documentGUID accountUserId:accountUserId];
+    return [objectPath stringByAppendingPathComponent:@"index_files"];
+}
 
-
-
+- (NSInteger) accountCacheSize:(NSString *)accountUserId
+{
+    NSString* accountPath = [self accountPathFor:accountUserId];
+    return [self folderTotalSizeAtPath:accountPath];
+}
 //
 - (NSString*) settingDataBasePath
 {
@@ -272,5 +256,11 @@
 {
     NSString* accountPath = [self accountPathFor:accountUserId];
     return [accountPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.db",kbGuid]];
+}
+
+- (NSString*) tempDataBatabasePath:(NSString *)accountUserId
+{
+    NSString* accountPath = [self accountPathFor:accountUserId];
+    return [accountPath stringByAppendingPathComponent:@"abstract.db"];
 }
 @end

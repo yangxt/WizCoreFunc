@@ -89,9 +89,7 @@
                 upTool.uploadObject = upObj;
                 [uploadObjectQueque removeObject:upObj];
                 [upTool start];
-
             }
-            
         }
     }
 }
@@ -109,6 +107,20 @@
 {
     if (statue != WizApistatueError) {
         [self startUpload];
+    }
+}
+
+- (void) stopUpload
+{
+    @synchronized(uploadObjectQueque)
+    {
+        [uploadObjectQueque removeAllObjects];
+    }
+    @synchronized(uploadTools)
+    {
+        for (WizUploadObject* each in uploadTools) {
+            [each cancel];
+        }
     }
 }
 

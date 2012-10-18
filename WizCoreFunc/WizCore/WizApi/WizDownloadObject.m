@@ -80,11 +80,16 @@
     id<WizMetaDataBaseDelegate> db = [self groupDataBase];
     if ([[downloadObject wizObjectType] isEqualToString:WizDocumentKeyString]) {
         [db setDocumentServerChanged:downloadObject.strGuid changed:NO];
+        WizDocument* document = (WizDocument*)downloadObject;
+        document.bServerChanged = NO;
     }
     else if ([[downloadObject wizObjectType] isEqualToString:WizAttachmentKeyString])
     {
         [db setAttachmentServerChanged:downloadObject.strGuid changed:NO];
+        WizAttachment* attachment = (WizAttachment*) downloadObject;
+        attachment.bServerChanged = NO;
     }
+    
     [self.delegate didDownloadObjectSucceed:downloadObject];
     [super end];
 }
@@ -143,5 +148,10 @@
         [self onDownloadObject:retObject];
     }
 }
-
+- (void) onError:(NSError *)error
+{
+    if (error.code == -101 && [error.domain isEqualToString:@"GDataParaseErrorDomain"]) {
+        
+    }
+}
 @end
