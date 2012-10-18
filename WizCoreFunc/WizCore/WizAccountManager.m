@@ -100,7 +100,7 @@
 {
     id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
     [db setStrSettingSettingVelue:userId forKey:WizSettingGlobalActiveAccount accountUserId:nil kbguid:nil];
-    [[WizSyncCenter defaultCenter] refreshGroupsListFor:userId];
+//    [[WizSyncCenter defaultCenter] refreshGroupsListFor:userId];
     return YES;
 }
 
