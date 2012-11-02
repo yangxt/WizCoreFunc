@@ -51,7 +51,6 @@ static NSArray* htmlArray;
     NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
     NSArray* languages = [defs objectForKey:@"AppleLanguages"];
     NSString* preferredLang = [languages objectAtIndex:0];
-    NSLog(@"Preferred Language:%@", preferredLang);
     return preferredLang;
 }
 
