@@ -87,14 +87,34 @@
                 [downloadObjectQueque removeLastObject];
                 [downloadTool start];
             }
+        }                                                                                                                              
+    }
+}
+- (BOOL) isDownloadWizObject:(WizObject*)obj
+{
+    for (WizObject* each in downloadObjectQueque) {
+        if ([each.strGuid isEqualToString:obj.strGuid]) {
+            return YES;
         }
     }
+    for (WizDownloadObject* each in downloadTools) {
+        if ([each.downloadObject.strGuid isEqualToString:obj.strGuid]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 - (void) shouldDownload:(WizObject*)obj
 {
     @synchronized(downloadObjectQueque)
     {
-        [downloadObjectQueque addObject:obj];
+        if (![self isDownloadWizObject:obj]) {
+            [downloadObjectQueque addObject:obj];
+        }
+        else
+        {
+            return;
+        }
     }
     [self startDownload];
 }

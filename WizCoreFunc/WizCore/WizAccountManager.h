@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #define WizDefalutAccount       @"WizDefalutAccount"
 
+
+#define WGDefaultChineseUserName    @"demo-scb@wiz.cn"
+#define WGDefaultChinesePassword    @"123456"
+
 @class WizAccount;
 @interface WizAccountManager : NSObject
 + (WizAccountManager *) defaultManager;
@@ -27,4 +31,5 @@
 - (NSString*)           activeGroupGuid;
 //
 - (NSArray*)    groupsForAccount:(NSString*)accountUserId;
+- (WizGroup*) groupForKbguid:(NSString*)kbguid accountUserId:(NSString*)userId;
 @end

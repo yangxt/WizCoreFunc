@@ -15,6 +15,7 @@
 #define WizShowErrorSpaceTime           120
 
 @interface WizSyncErrorCenter () <WizApiLoginDelegate>
+@property (atomic, retain) NSMutableDictionary* errorTimeDictionary;
 @property (atomic, retain) NSMutableDictionary* syncDataDictionay;
 @property (atomic, retain) NSMutableDictionary* errorQuequeDictionary;
 @property (nonatomic, retain) WizApiClientLogin* refreshTokenTool;
@@ -24,8 +25,10 @@
 @synthesize errorQuequeDictionary;
 @synthesize syncDataDictionay;
 @synthesize refreshTokenTool;
+@synthesize errorTimeDictionary;
 - (void) dealloc
 {
+    [errorTimeDictionary release];
     [refreshTokenTool release];
     [errorQuequeDictionary release];
     [syncDataDictionay release];
@@ -38,6 +41,7 @@
     if (self) {
         errorQuequeDictionary = [[NSMutableDictionary alloc] init];
         syncDataDictionay = [[NSMutableDictionary alloc] init];
+        errorTimeDictionary = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -66,6 +70,35 @@
     }
     return errorQueque;
 }
+- (NSString*) keyForError:(NSError*)error
+{
+    return [NSString stringWithFormat:@"%@%d",error.domain,error.code];
+}
+
+- (NSDate*) lastErrorTimeFor:(NSError*)error
+{
+    NSString* errorKey = [self keyForError:error];
+    NSDate* lastDate = [self.errorTimeDictionary objectForKey:errorKey];
+    if (lastDate == nil) {
+        return [NSDate date];
+    }
+    return lastDate;
+}
+
+- (void) updateLastErrorTimeFor:(NSError*)error
+{
+     NSString* errorKey = [self keyForError:error];
+    [self.errorTimeDictionary setObject:[NSDate date] forKey:errorKey];
+}
+- (void) showAlertForError:(NSError*)error
+{
+    NSDate* now = [NSDate date];
+    NSDate* lastDate = [self lastErrorTimeFor:error];
+    if ([lastDate timeIntervalSinceDate:now] > WizShowErrorSpaceTime) {
+        [WizGlobals reportError:error];
+        [self updateLastErrorTimeFor:error];
+    }
+}
 
 - (void) didClientLoginFaild:(NSError *)error
 {
@@ -87,6 +120,9 @@
     
     NSMutableArray* errorQueque = [self errorQuequeFor:WizErrorQuequeUnactiveToken];
     for (WizApi* api in errorQueque ) {
+        if ([api isKindOfClass:[WizApiClientLogin class]]) {
+            continue;
+        }
         [api start];
     }
     [errorQueque removeAllObjects];
@@ -116,12 +152,7 @@
     }
     if([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet)
     {
-        static NSDate* lastDateShowAlert = nil;
-        NSDate* now = [NSDate date];
-        if (lastDateShowAlert == nil || [lastDateShowAlert timeIntervalSinceDate:now] > WizShowErrorSpaceTime) {
-            [WizGlobals reportError:error];
-            lastDateShowAlert = now;
-        }
+        [self showAlertForError:error];
         [api end];
     }
     else if ([error.domain isEqualToString:WizErrorDomain] && WizSyncErrorNullException == error.code) {
@@ -129,14 +160,20 @@
         [errorQueque addObject:api];
         [self refreshToken];
     }
+    else if ([error.domain isEqualToString:WizErrorDomain] && WizSyncErrorTokenUnactive == error.code)
+    {
+        NSMutableArray* errorQueque = [self errorQuequeFor:WizErrorQuequeUnactiveToken];
+        [errorQueque addObject:api];
+        [self refreshToken];
+    }
     else if ([error.domain isEqualToString:NSURLErrorDomain] && NSURLErrorTimedOut == error.code)
     {
-        [WizGlobals reportError:error];
+        [self showAlertForError:error];
         [api end];
     }
     else
     {
-        [WizGlobals reportError:error];
+        [self showAlertForError:error];
         [api end];
     }
 }

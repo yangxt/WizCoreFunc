@@ -10,6 +10,8 @@
 #import "FMDatabaseAdditions.h"
 #import "WizGlobals.h"
 #import "WizFileManager.h"
+#import "NSString+WizString.h"
+
 #define PRIMARAY_KEY    @"PRIMARAY_KEY"
 @implementation WizDataBase
 @synthesize queue;

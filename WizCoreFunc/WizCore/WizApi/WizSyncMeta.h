@@ -28,4 +28,5 @@ enum WizSyncMetaType {
 - (id) initWithType:(enum WizSyncMetaType) type  kbguid:(NSString*)kb accountUserId:(NSString*)userId;
 - (void) startSyncMeta;
 - (void) stopSyncMeta;
+- (BOOL) isSyncingGroupMeta;
 @end

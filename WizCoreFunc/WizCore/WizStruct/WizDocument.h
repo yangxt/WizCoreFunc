@@ -9,7 +9,7 @@
 #import "WizObject.h"
 
 
-static NSString* const  DataTypeUpdateDocumentGUID           =       @"document_guid";
+static NSString* const  DataTypeUpdateDocumentGUID          =       @"document_guid";
 static NSString* const DataTypeUpdateDocumentTitle          =       @"document_title";
 static NSString* const DataTypeUpdateDocumentLocation       =       @"document_location";
 static NSString* const DataTypeUpdateDocumentDataMd5        =       @"data_md5";
@@ -34,7 +34,7 @@ static NSString* const DataTypeUpdateDocumentGPS_LEVEL2     =       @"GPS_LEVEL2
 static NSString* const DataTypeUpdateDocumentGPS_LEVEL3     =       @"GPS_LEVEL3";
 static NSString* const DataTypeUpdateDocumentGPS_DESCRIPTION=       @"GPS_DESCRIPTION";
 static NSString* const DataTypeUpdateDocumentREADCOUNT      =       @"READCOUNT";
-
+static NSString* const DataTypeUpdateDocumentOwner          =       @"document_owner";
 
 enum WizEditDocumentType {
     WizEditDocumentTypeNoChanged = 0,
@@ -67,5 +67,6 @@ enum WizEditDocumentType {
 @property (atomic, retain) NSString* gpsLevel2;
 @property (atomic, retain) NSString* gpsLevel3;
 @property (atomic, retain) NSString* gpsDescription;
+@property (atomic, retain) NSString* strOwner;
 - (NSDictionary*) getModelDictionary;
 @end

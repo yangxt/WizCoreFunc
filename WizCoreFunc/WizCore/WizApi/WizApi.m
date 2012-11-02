@@ -43,7 +43,6 @@
     _statue = WizApiStatueBusy;
     
     //
-    NSLog(@"start %@",[self class]);
     return YES;
 }
 
@@ -92,18 +91,26 @@
 	[postParams setObject:@"normal" forKey:@"program_type"];
     [postParams setObject:[NSNumber numberWithInt:4] forKey:@"api_version"];
 	//
-    NSString* token = [[WizSyncDataCenter shareInstance] tokenForAccount:self.accountUserId];
-	if (token != nil)
-	{
-		[postParams setObject:token forKey:@"token"];
-	}
 	if (kbGuid != nil)
 	{
 		[postParams setObject:kbGuid forKey:@"kb_guid"];
 	}
 }
--(BOOL)executeXmlRpcWithArgs:(NSMutableDictionary*)postParams  methodKey:(NSString*)methodKey
+-(BOOL)executeXmlRpcWithArgs:(NSMutableDictionary*)postParams  methodKey:(NSString*)methodKey  needToken:(BOOL)isNeedToken
 {
+    
+    if (isNeedToken) {
+        NSString* token = [[WizSyncDataCenter shareInstance] tokenForAccount:self.accountUserId];
+        if (token != nil)
+        {
+            [postParams setObject:token forKey:@"token"];
+        }
+        else
+        {
+            [[WizSyncErrorCenter shareInstance] willSolveWizApi:self onError:[NSError errorWithDomain:WizErrorDomain code:WizSyncErrorTokenUnactive userInfo:nil]];
+            return NO;
+        }
+    }
     NSURL* apiUrl = [[WizSyncDataCenter shareInstance] apiUrlForKbguid:self.kbGuid];
 	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:apiUrl];
 	if (!request)

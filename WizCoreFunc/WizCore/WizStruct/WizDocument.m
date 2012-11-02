@@ -32,9 +32,10 @@
 @synthesize gpsLevel2;
 @synthesize gpsLevel3;
 @synthesize gpsDescription;
-
+@synthesize strOwner;
 - (void) dealloc
 {
+    [strOwner release];
     [strLocation release];
     [strUrl release];
     [dateCreated release];

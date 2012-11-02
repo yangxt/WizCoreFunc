@@ -33,6 +33,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 	[pool release];
 }
 
+
 @implementation WizGlobals
 static NSArray*  pptArray;
 static NSArray*  docArray;
@@ -572,7 +573,6 @@ static NSArray* htmlArray;
 }
 + (BOOL) checkPasswordIsEncrypt:(NSString*)password
 {
-    NSLog(@"password is %@",password);
     if (password.length > 4 &&[[password substringToIndex:4] isEqualToString:@"md5."]) {
         return YES;
     }
@@ -652,3 +652,18 @@ BOOL WizDeviceIsPad(void)
 	BOOL b = DeviceIsPad(); 
 	return b;
 }
+
+
+@implementation UIViewController(WizScreenBounds)
+
+- (CGSize) contentViewSize
+{
+    float height = [UIScreen mainScreen].bounds.size.height;
+    height -=  [[UIApplication sharedApplication] statusBarFrame].size.height;
+    if (!self.navigationController.navigationBarHidden) {
+        height -= self.navigationController.navigationBar.frame.size.height;
+    }
+    return CGSizeMake(self.view.frame.size.width, height);
+}
+
+@end

@@ -9,6 +9,7 @@
 #import "WizApiRefreshGroups.h"
 #import "WizDbManager.h"
 #import "WizAccountManager.h"
+#import "WizSyncDataCenter.h"
 
 @implementation WizApiRefreshGroups
 @synthesize delegate;
@@ -22,7 +23,7 @@
 - (BOOL) start
 {
     if ([super start]) {
-        [self executeXmlRpcWithArgs:[NSMutableDictionary dictionary] methodKey:SyncMethod_GetGropKbGuids];
+        [self executeXmlRpcWithArgs:[NSMutableDictionary dictionary] methodKey:SyncMethod_GetGropKbGuids needToken:YES];
         return YES;
     }
     return NO;
@@ -32,6 +33,15 @@
 {
     id<WizSettingsDbDelegate> settingDb =  [[WizDbManager shareInstance] getGlobalSettingDb];
     //
+    if ([retObject isKindOfClass:[NSArray class]]) {
+        for (NSDictionary* group in retObject) {
+            NSString* kguid = [group objectForKey:@"kb_guid"];
+            NSString* kapi_url = [group objectForKey:@"kapi_url"];
+            if (kapi_url) {
+                [[WizSyncDataCenter shareInstance] refreshApiurl:[NSURL URLWithString:kapi_url] kbguid:kguid];
+            }
+        }
+    }
     [settingDb updateGroups:retObject accountUserId:self.accountUserId];
     
     [self.delegate didRefreshGroupsSucceed];

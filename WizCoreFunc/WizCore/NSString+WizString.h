@@ -39,6 +39,11 @@
 - (NSInteger) indexOf:(NSString *)find compareOptions:(NSStringCompareOptions)mask;
 
 - (BOOL) checkHasInvaildCharacters;
-
+- (NSString*) processHtml;
+- (NSString*) htmlToText:(int)maxSize;
+//
+- (NSArray*)  sperateTagGuids;
+- (NSString*)  removeTagguid:(NSString*)tagGuid;
+- (NSString*) chinesePinYin;
 - (NSComparisonResult) compareChinesePinyin:(NSString*)string;
 @end

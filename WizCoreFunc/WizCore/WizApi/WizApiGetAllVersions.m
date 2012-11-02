@@ -23,7 +23,7 @@
         return NO;
     }
     //
-    [self executeXmlRpcWithArgs:[NSMutableDictionary dictionary] methodKey:SyncMethod_GetAllObjectVersion];
+    [self executeXmlRpcWithArgs:[NSMutableDictionary dictionary] methodKey:SyncMethod_GetAllObjectVersion needToken:YES];
     return YES;
 }
 

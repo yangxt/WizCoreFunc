@@ -91,8 +91,6 @@
 		<string>char(19)</string>
 		<key>DT_MODIFIED</key>
 		<string>char(19)</string>
-		<key>DOCUMENT_ATTACHEMENT_COUNT</key>
-		<string>int</string>
 		<key>DOCUMENT_DATA_MD5</key>
 		<string>char(32)</string>
 		<key>ATTACHMENT_COUNT</key>

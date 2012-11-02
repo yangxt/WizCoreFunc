@@ -37,7 +37,7 @@
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [postParams setObject:tagTemp forKey:@"tags"];
     [tagTemp release];
-    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_PostTagList];
+    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_PostTagList needToken:YES];
 }
 
 - (void) onUploadTags

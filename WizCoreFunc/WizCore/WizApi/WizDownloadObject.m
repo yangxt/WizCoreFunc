@@ -54,7 +54,7 @@
     [postParams setObject:[downloadObject wizObjectType] forKey:@"obj_type"];
     [postParams setObject:[NSNumber numberWithInt:currentPos] forKey:@"start_pos"];
     [postParams setObject:[NSNumber numberWithInt:WizDownloadPartSize] forKey:@"part_size"];
-    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_DownloadObject];
+    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_DownloadObject needToken:YES];
 }
 
 - (BOOL) start
@@ -91,6 +91,7 @@
     }
     
     [self.delegate didDownloadObjectSucceed:downloadObject];
+    self.downloadObject = nil;
     [super end];
 }
 
@@ -115,7 +116,11 @@
     else
     {
         NSFileHandle* downloadFileHandle = [self downloadTempFileHandle];
+        [downloadFileHandle seekToEndOfFile];
         [downloadFileHandle writeData:data];
+        
+        NSLog(@"seek is %lld",[downloadFileHandle offsetInFile]);
+        
         [downloadFileHandle closeFile];
         if (!eof) {
             [self downloadNextPart];
@@ -151,7 +156,11 @@
 - (void) onError:(NSError *)error
 {
     if (error.code == -101 && [error.domain isEqualToString:@"GDataParaseErrorDomain"]) {
-        
+        [self  onDownloadFaild];
+    }
+    else
+    {
+        [super onError:error];
     }
 }
 @end

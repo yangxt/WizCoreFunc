@@ -35,7 +35,7 @@
         }
     }
     [postParams setObject:deletedArray forKey:@"deleteds"];
-    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_UploadDeletedList];
+    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_UploadDeletedList needToken:YES];
 }
 - (BOOL) start
 {

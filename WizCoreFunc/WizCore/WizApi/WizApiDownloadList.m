@@ -62,7 +62,7 @@
     [postParams setObject:[NSNumber numberWithInt:[self listCount]] forKey:@"count"];
     
     [postParams setObject:[NSNumber numberWithInt:localVersion] forKey:@"version"];
-    [self executeXmlRpcWithArgs:postParams methodKey:[self getMethodName]];
+    [self executeXmlRpcWithArgs:postParams methodKey:[self getMethodName] needToken:YES];
 }
 
 - (BOOL) start

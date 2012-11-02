@@ -53,6 +53,7 @@
 #define WizStrEditNote              NSLocalizedString(@"Edit note",nil)
 #define WizStrCreateAccount         NSLocalizedString(@"Create an account", nil)
 #define WizStrRecentNotes           NSLocalizedString(@"Recent notes", nil)
+#define WizStrRecent                NSLocalizedString(@"Recent", nil)
 #define WizStrChangePassword        NSLocalizedString(@"Change password", nil)
 #define WizStrSwitchAccounts        NSLocalizedString(@"Switch accounts", nil)
 #define WizStrUserId                NSLocalizedString(@"User ID", nil)
@@ -111,5 +112,8 @@
 #define WizStrBeforeAMonth               NSLocalizedString(@"Before a month",nil)
 #define WizStrAll                       NSLocalizedString(@"All",nil)
 #define WizStrLocation                  NSLocalizedString(@"Location",nil)
+
+#define WizStrUnreadNotes               NSLocalizedString(@"Unread Notes",nil)
+
 
 NSString* getTagDisplayName(NSString* tagName);

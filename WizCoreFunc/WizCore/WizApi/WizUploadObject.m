@@ -103,7 +103,7 @@
     [postParams setObject:localMd5 forKey:@"part_md5"];
     NSUInteger partSize=[data length];
     [postParams setObject:[NSNumber numberWithInt:partSize]   forKey:@"part_size"];
-    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_UploadObject];
+    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_UploadObject needToken:YES];
 }
 - (void) uploadDocumentMeta:(BOOL) isWithData
 {
@@ -131,7 +131,7 @@
         [postParams setObjectNotNull:ss forKey:@"document_tag_guids"];
     else
         [postParams setObjectNotNull:tags forKey:@"document_tag_guids"];
-	[self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_DocumentPostSimpleData];
+	[self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_DocumentPostSimpleData needToken:YES];
 }
 
 - (void) uploadAttachmentMeta
@@ -148,7 +148,7 @@
     [postParams setObject:self.fileMd5                        forKey:@"attachment_zip_md5"];
     [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_info"];
     [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_data"];
-    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_AttachmentPostSimpleData];
+    [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_AttachmentPostSimpleData needToken:YES];
 }
 
 - (void) startUpload

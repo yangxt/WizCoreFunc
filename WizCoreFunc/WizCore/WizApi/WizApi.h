@@ -59,7 +59,7 @@ const static NSInteger WizApiAttemptTimeMax = 5;
 - (void) cancel;
 - (void) onError:(NSError*)error;
 - (void) xmlrpcDoneSucced:(id)retObject forMethod:(NSString*)method;
-- (BOOL) executeXmlRpcWithArgs:(NSMutableDictionary*)postParams  methodKey:(NSString*)methodKey;
+-(BOOL)executeXmlRpcWithArgs:(NSMutableDictionary*)postParams  methodKey:(NSString*)methodKey  needToken:(BOOL)isNeedToken;
 - (void) reduceAttempTime;
 - (id<WizMetaDataBaseDelegate>) groupDataBase;
 //

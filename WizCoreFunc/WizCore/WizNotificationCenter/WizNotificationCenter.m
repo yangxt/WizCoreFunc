@@ -21,4 +21,13 @@
     [userInfo setObject:guid forKey:WizNMDocumentKeyString];
 }
 
++ (NSString*) getGuidFromNc:(NSNotification *)nc
+{
+    return [[nc userInfo] objectForKey:WizNMGuidKeyString];
+}
+
++ (void) addGuid:(NSString *)guid toUserInfo:(NSMutableDictionary *)userInfo
+{
+    [userInfo setObject:guid forKey:WizNMGuidKeyString];
+}
 @end

@@ -22,6 +22,9 @@
 - (BOOL) setTagVersion:(int64_t)ver;
 - (int64_t) attachmentVersion;
 - (BOOL) setAttachmentVersion:(int64_t)ver;
+// read count
+- (int64_t) documentUnReadCount;
+- (BOOL)    setDocumentUnReadCount:(int64_t)count;
 // delete object
 - (BOOL) deleteAttachment:(NSString *)attachGuid;
 - (BOOL) deleteTag:(NSString*)tagGuid;
@@ -40,9 +43,10 @@
 - (NSArray*) documentsForCache:(NSInteger)duration;
 - (WizDocument*) documentForClearCacheNext;
 - (WizDocument*) documentForDownloadNext;
-
+- (NSArray*) unreadDocuments;
 - (BOOL) setDocumentServerChanged:(NSString*)guid changed:(BOOL)changed;
 - (BOOL) setDocumentLocalChanged:(NSString*)guid  changed:(enum WizEditDocumentType)changed;
+- (BOOL) updateDocumentReadCount:(NSString*)documentGuid;
 //tag
 - (NSArray*) allTagsForTree;
 - (BOOL) updateTag: (NSDictionary*) tag;

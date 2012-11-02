@@ -18,4 +18,5 @@
 - (void) uploadWizObject:(WizObject*)wizObject;
 - (void) startSyncMeta;
 - (void) stopSync;
+- (BOOL) isSyncingMeta;
 @end

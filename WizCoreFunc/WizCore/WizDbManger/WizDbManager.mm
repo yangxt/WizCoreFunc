@@ -9,7 +9,7 @@
 #import "WizDbManager.h"
 #import "WizMetaDataBase.h"
 #import "WizSettingsDataBase.h"
-
+#import "WizTempDataBase.h"
 //
 
 #import "WizFileManager.h"
@@ -101,8 +101,9 @@ static WizDbManager* shareDbManager = nil;
 {
     
     NSString* kbDbPath = [[WizFileManager  shareManager] metaDataBasePathForAccount:accountUserId kbGuid:kbguid];
-    id<WizMetaDataBaseDelegate> dataBase = [[WizMetaDataBase alloc] initWithPath:kbDbPath modelName:@"WizDataBaseModel"];
-    
+    WizMetaDataBase* dataBase = [[WizMetaDataBase alloc] initWithPath:kbDbPath modelName:@"WizDataBaseModel"];
+    dataBase.accountUserId = accountUserId;
+    dataBase.kbguid = kbguid;
     NSString* dbKey = [self metaDataBaseKeyForAccount:accountUserId kbGuid:kbguid];
     [self.dbDataDictionary setObject:dataBase forKey:dbKey];
     return [dataBase autorelease];
@@ -145,6 +146,20 @@ static WizDbManager* shareDbManager = nil;
         [self.dbDataDictionary setObject:setDb forKey:settingDbKey];
         [setDb release];
         return setDb;
+    }
+    return db;
+}
+
+- (id<WizTemporaryDataBaseDelegate>) getGlobalCacheDb
+{
+    NSString* cacheDbKey = @"settingDbCache";
+    id<WizTemporaryDataBaseDelegate> db = [self.dbDataDictionary objectForKey:cacheDbKey];
+    if (nil == db) {
+        NSString* dbPath = [[WizFileManager shareManager] cacheDbPath];
+        WizTempDataBase* tempDb = [[WizTempDataBase alloc] initWithPath:dbPath modelName:@"WizAbstractDataBaseModel"];
+        [self.dbDataDictionary setObject:tempDb forKey:cacheDbKey];
+        [tempDb release];
+        return tempDb;
     }
     return db;
 }

@@ -16,6 +16,9 @@
 #import "WizTag.h"
 #import "WizDeletedGUID.h"
 #import "WizGroup.h"
+
+#import "WizLogger.h"
+
 //#define _DEBUG
 #ifdef _DEBUG
 #define NSLog(s,...) ;
@@ -58,7 +61,10 @@
 //	return bounds;
 //}
 
+//debug
+#define WGDetailCellBackgroudColor  [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
 
+//
 #define MULTIBACK(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
 #define MULTIMAIN(block) dispatch_async(dispatch_get_main_queue(),block)
 
@@ -125,3 +131,9 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 
 
 extern BOOL WizDeviceIsPad(void);
+
+
+//
+@interface UIViewController (WizScreenBounds)
+- (CGSize) contentViewSize;
+@end

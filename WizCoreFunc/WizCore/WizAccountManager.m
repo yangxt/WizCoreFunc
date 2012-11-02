@@ -98,9 +98,10 @@
 
 - (BOOL) registerActiveAccount:(NSString *)userId
 {
+    [[WizNotificationCenter defaultCenter] postNotificationName:WizNMWillUpdateGroupList object:nil];
     id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
     [db setStrSettingSettingVelue:userId forKey:WizSettingGlobalActiveAccount accountUserId:nil kbguid:nil];
-//    [[WizSyncCenter defaultCenter] refreshGroupsListFor:userId];
+    [[WizSyncCenter defaultCenter] refreshGroupsListFor:userId];
     return YES;
 }
 
@@ -117,7 +118,7 @@
     if (userId) {
         return userId;
     }
-    return WizDefalutAccount;
+    return WGDefaultChineseUserName;
 }
 
 - (void) updateAccount:(NSString *)userId password:(NSString *)passwrod
@@ -158,5 +159,11 @@
 {
     id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
     return [db groupsByAccountUserId:accountUserId];
+}
+
+- (WizGroup*) groupForKbguid:(NSString *)kbguid accountUserId:(NSString *)userId
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    return [db groupFromGuid:kbguid accountUserId:userId];
 }
 @end

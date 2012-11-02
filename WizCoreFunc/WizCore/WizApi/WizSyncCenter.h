@@ -13,7 +13,8 @@
 - (void) refreshGroupsListFor:(NSString*)accountUserId;
 - (void) refreshGroupData:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 - (void) downloadDocument:(WizDocument*)doc kbguid:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
-
+- (BOOL) isSyncingGropMeta;
+- (BOOL) isSyncingGrop:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 //
 - (void) testSyncKb:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 @end

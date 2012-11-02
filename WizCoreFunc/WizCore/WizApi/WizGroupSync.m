@@ -59,11 +59,18 @@
 }
 - (void) startSyncMeta
 {
+    if (self.syncMetaTool && [self.syncMetaTool isSyncingGroupMeta]) {
+        return;
+    }
     WizSyncMeta* syncMeta = [[WizSyncMeta alloc] initWithType:WizSyncMetaAll kbguid:self.kbguid accountUserId:self.accountUserId];
     self.syncMetaTool = syncMeta;
     [syncMeta release];
     syncMeta.delegate = self;
     [self.syncMetaTool startSyncMeta];
+}
+- (BOOL) isSyncingMeta
+{
+    return [self.syncMetaTool isSyncingGroupMeta];
 }
 
 - (void) downloadWizObject:(WizObject *)wizObject

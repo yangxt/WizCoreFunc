@@ -118,12 +118,18 @@
 - (void) wizApiEnd:(WizApi *)api withSatue:(enum WizApiStatue)statue
 {
     if (statue == WizApistatueError || isStop) {
+        NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:1];
+        [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
+        [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupError object:nil userInfo:userInfo];
         [self.delegate didSyncMetaFaild];
     }
     else
     {
         apiIndex ++;
         if (apiIndex >= [apiQueque count]) {
+            NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:1];
+            [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
+            [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupEnd object:nil userInfo:userInfo];
             [self.delegate didSyncMetaSucceed];
         }
         else
@@ -158,6 +164,9 @@
     isStop = NO;
     if ([apiQueque count]) {
         WizApi* api = [apiQueque objectAtIndex:0];
+        NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:1];
+        [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
+        [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupStart object:nil userInfo:userInfo];
         [api start];
     }
 }
@@ -172,5 +181,17 @@
         WizApi* nextApi = [apiQueque objectAtIndex:apiIndex];
         [nextApi cancel];
     }
+}
+
+- (BOOL) isSyncingGroupMeta
+{
+    if ([apiQueque count]) {
+        for (WizApi* each in apiQueque) {
+            if (each.statue != WizApiStatueNormal) {
+                return YES;
+            }
+        }
+    }
+    return NO;
 }
 @end

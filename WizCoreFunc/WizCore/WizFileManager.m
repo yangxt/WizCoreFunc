@@ -63,6 +63,14 @@
 	return documentDirectory;
 }
 
++ (NSString*) logFilePath
+{
+    static NSString* logFilePath = nil;
+    if (logFilePath == nil) {
+        logFilePath = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"log.txt"];
+    }
+    return logFilePath;
+}
 -(BOOL) ensurePathExists:(NSString*)path
 {
 	BOOL b = YES;
@@ -131,6 +139,20 @@
 
 - (BOOL) unzipWizObjectData:(NSString *)ziwFilePath toPath:(NSString *)aimPath
 {
+    NSError* error = nil;
+    NSArray* contents = [self contentsOfDirectoryAtPath:aimPath error:&error];
+    NSLog(@"%@",error);
+    for (NSString* each in contents) {
+        NSString* contentPath = [aimPath stringByAppendingPathComponent:each];
+        if ([contentPath isEqualToString:ziwFilePath]) {
+            continue;
+        }
+        if ([[[each fileType] lowercaseString] isEqualToString:@"zip"]) {
+            continue;
+        }
+        [self removeItemAtPath:contentPath error:&error];
+    }
+    
     ZipArchive* zip = [[ZipArchive alloc] init];
     [zip UnzipOpenFile:ziwFilePath];
     BOOL zipResult = [zip UnzipFileTo:aimPath overWrite:YES];
@@ -252,6 +274,11 @@
     return [path stringByAppendingPathComponent:@"settings.db"];
 }
 
+- (NSString*) cacheDbPath
+{
+    NSString* path = [WizFileManager documentsPath];
+    return [path stringByAppendingPathComponent:@"cache.db"];
+}
 - (NSString*) metaDataBasePathForAccount:(NSString *)accountUserId kbGuid:(NSString *)kbGuid
 {
     NSString* accountPath = [self accountPathFor:accountUserId];

@@ -10,5 +10,6 @@
 #import "WizMetaDataBaseDelegate.h"
 
 @interface WizMetaDataBase : WizDataBase <WizMetaDataBaseDelegate>
-
+@property (nonatomic, retain) NSString* accountUserId;
+@property (nonatomic, retain) NSString* kbguid;
 @end

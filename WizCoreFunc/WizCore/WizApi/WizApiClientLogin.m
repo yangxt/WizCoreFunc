@@ -17,7 +17,7 @@
 - (void) dealloc
 {
     delegate = nil;
-    [delegate release];
+    [password release];
     [super dealloc];
 }
 
@@ -26,8 +26,8 @@
     if ([super start]) {
         NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
         [postParams setObject:self.accountUserId forKey:@"user_id"];
-        [postParams setObject:password forKey:@"password"];
-        [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_ClientLogin];
+        [postParams setObject:self.password forKey:@"password"];
+        [self executeXmlRpcWithArgs:postParams methodKey:SyncMethod_ClientLogin needToken:NO];
         return YES;
     }
     else
@@ -50,7 +50,6 @@
 
 - (void) loginSucceed:(id)ret
 {
-    
     NSString* token = [ret objectForKey:@"token"];
     NSString* apiUrl = [ret objectForKey:@"kapi_url"];
     NSString* kbGuid = [ret objectForKey:@"kb_guid"];

@@ -17,6 +17,7 @@
 
 @interface WizFileManager : NSFileManager
 +(NSString*) documentsPath;
++ (NSString*) logFilePath;
 + (id) shareManager;
 - (NSString*) accountPathFor:(NSString*)accountUserId;
 - (NSString*) wizObjectFilePath:(NSString*)objectGuid           accountUserId:(NSString*)accountUserId;
@@ -39,4 +40,6 @@
 - (NSString*) tempDataBatabasePath:(NSString*)accountUserId;
 - (NSString*) metaDataBasePathForAccount:(NSString*)accountUserId   kbGuid:(NSString*)kbGuid;
 - (NSString*) settingDataBasePath;
+//
+- (NSString*) cacheDbPath;
 @end
