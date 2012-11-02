@@ -21,13 +21,55 @@
 #define KeyOfKbguids                @"KeyOfKbguids"
 
 
+//
+#define WGDefaultChineseUserName    @"demo-scb@wiz.cn"
+#define WGDefaultChinesePassword    @"123456"
+
+//
+#define WGDefaultEnglishUserName    @"yishuiliunian@gmail.com"
+#define WGDefaultEnglishPassword    @"654321"
+NSString* getDefaultAccountUserId()
+{
+    if ([WizGlobals isChineseEnviroment]) {
+        return WGDefaultChineseUserName;
+    }
+    else
+    {
+        return WGDefaultEnglishUserName;
+    }
+}
+
+NSString* getDefaultAccountPassword()
+{
+    if ([WizGlobals isChineseEnviroment]) {
+        return WGDefaultChinesePassword;
+    }
+    else
+    {
+        return WGDefaultEnglishPassword;
+    }
+}
+
 
 //
 @interface WizAccountManager()
 
+
+
 @end
 
 @implementation WizAccountManager
+
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+        [db updateAccount:WGDefaultChineseUserName password:WGDefaultChinesePassword];
+        [db updateAccount:WGDefaultEnglishUserName password:WGDefaultEnglishPassword];
+    }
+    return self;
+}
 + (id) defaultManager;
 {
     static WizAccountManager* shareManager = nil;
@@ -118,7 +160,7 @@
     if (userId) {
         return userId;
     }
-    return WGDefaultChineseUserName;
+    return WGDefaultAccountUserId;
 }
 
 - (void) updateAccount:(NSString *)userId password:(NSString *)passwrod
@@ -153,7 +195,7 @@
     if (userId) {
         return userId;
     }
-    return WizDefalutAccount;
+    return WGDefaultAccountUserId;
 }
 - (NSArray*) groupsForAccount:(NSString *)accountUserId
 {

@@ -42,8 +42,30 @@ static NSArray* textArray;
 static NSArray* imageArray;
 static NSArray* excelArray;
 static NSArray* htmlArray;
+/**
+ *得到本机现在用的语言
+ * en:英文  zh-Hans:简体中文   zh-Hant:繁体中文    ja:日本  ......
+ */
++ (NSString*)getPreferredLanguage
+{
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+    NSArray* languages = [defs objectForKey:@"AppleLanguages"];
+    NSString* preferredLang = [languages objectAtIndex:0];
+    NSLog(@"Preferred Language:%@", preferredLang);
+    return preferredLang;
+}
 
-
++ (BOOL) isChineseEnviroment
+{
+    NSString* currentLanguage = [[WizGlobals getPreferredLanguage] lowercaseString];
+    if ([currentLanguage isEqualToString:[@"zh-Hans" lowercaseString]]) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
 + (float) WizDeviceVersion
 {
 //    return 4.0f;

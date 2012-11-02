@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#define WizDefalutAccount       @"WizDefalutAccount"
+#define WGDefaultAccountUserId      getDefaultAccountUserId()
+#define WGDefaultAccountPassword    getDefaultAccountPassword()
 
-
-#define WGDefaultChineseUserName    @"demo-scb@wiz.cn"
-#define WGDefaultChinesePassword    @"123456"
+NSString* getDefaultAccountPassword();
+NSString* getDefaultAccountUserId();
 
 @class WizAccount;
+@class WizGroup;
 @interface WizAccountManager : NSObject
 + (WizAccountManager *) defaultManager;
 - (NSArray*)            allAccountUserIds;

@@ -73,6 +73,8 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 @interface WizGlobals : NSObject {
 
 }
++ (BOOL) isChineseEnviroment;
+//
 +(float) heightForWizTableFooter:(int)exisitCellCount;
 + (NSString*) folderStringToLocal:(NSString*) str;
 +(int) currentTimeZone;
