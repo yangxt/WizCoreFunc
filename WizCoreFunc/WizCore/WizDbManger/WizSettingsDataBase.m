@@ -326,4 +326,21 @@
 {
     [self updateSetting:accountUserId kbGuid:kbguid key:key value:value];
 }
+
+- (NSDate*) lastUpdateTimeForGroup:(NSString *)kbguid accountUserId:(NSString *)accountUserId
+{
+    NSString* dateStr = [self strSettingValueForKey:WizSettingLastUpdateTime accountUserId:accountUserId kbguid:kbguid];
+    if (dateStr == nil) {
+        return [NSDate date];
+    }
+    NSDate* date = [dateStr dateFromSqlTimeString];
+    return date;
+}
+
+- (void) setLastUpdateTimeForGroup:(NSString *)kbguid accountUserId:(NSString *)accountUserId
+{
+    NSString* dateStr = [[NSDate date]stringSql];
+    [self setStrSettingSettingVelue:dateStr forKey:WizSettingLastUpdateTime accountUserId:accountUserId kbguid:kbguid];
+}
+
 @end

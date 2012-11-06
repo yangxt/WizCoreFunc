@@ -20,7 +20,7 @@
 #define WizSettingAccountUserPoints         @"WizSettingAccountUserPoints"
 #define WizSettingAccountUserType           @"WizSettingAccountUserType"
 
-
+#define WizSettingLastUpdateTime            @"WizSettingLastUpdateTime"
 
 @class WizGroup;
 @class WizAccount;
@@ -43,4 +43,7 @@
 - (void) setInt64_tSettingVelue:(int64_t)value      forKey:(NSString*)key accountUserId:(NSString*)accountUserId  kbguid:(NSString*)kbguid;
 - (void) setBoolSettingSettingVelue:(BOOL)value  forKey:(NSString*)key accountUserId:(NSString*)accountUserId  kbguid:(NSString*)kbguid;
 - (void) setStrSettingSettingVelue:(NSString*)value   forKey:(NSString*)key accountUserId:(NSString*)accountUserId  kbguid:(NSString*)kbguid;
+
+- (NSDate*) lastUpdateTimeForGroup:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
+- (void)    setLastUpdateTimeForGroup:(NSString*)kbguid accountUserId:(NSString*)accountUserId;
 @end
