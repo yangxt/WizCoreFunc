@@ -48,6 +48,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         serverUrl = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+//        serverUrl = [[NSURL alloc] initWithString:@"http://221.194.146.64:8080/wizkm/xmlrpc"];
+        
     });
     
     if (nil == kbguid) {

@@ -37,6 +37,7 @@
 - (BOOL)     updateDocuments:(NSArray *)documents;
 - (NSArray*) recentDocuments;
 - (NSArray*) documentsByTag: (NSString*)tagGUID;
+- (NSArray*) documentsByNotag;
 - (NSArray*) documentsByKey: (NSString*)keywords;
 - (NSArray*) documentsByLocation: (NSString*)parentLocation;
 - (NSArray*) documentForUpload;

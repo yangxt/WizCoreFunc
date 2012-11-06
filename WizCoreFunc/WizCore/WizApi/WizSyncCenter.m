@@ -14,11 +14,16 @@
 
 #import "WizSyncGropOperation.h"
 
+typedef enum WizGroupSyncStatue_
+{
+    WizGroupSyncStatueNormal = 0,
+    WizGroupSyncStatueSycning = 1
+}WizGroupSyncStatue;
+
 @interface WizSyncCenter () <WizApiLoginDelegate, WizApiRefreshGroupsDelegate>
 {
     NSMutableDictionary* syncToolDictionay;
     //
-
 }
 @property (nonatomic, retain) WizApiRefreshGroups* refreshGroupsTool;
 @property (nonatomic, retain) WizApiClientLogin* loginTool;
@@ -45,9 +50,37 @@
         syncToolDictionay = [[NSMutableDictionary alloc] init];
         syncStatueDic = [[NSMutableDictionary alloc] init];
         //
+        [[WizNotificationCenter defaultCenter] addObserver:self
+                                                  selector:@selector(didUpdateGroup:)
+                                                      name:WizNMWillUpdateGroupList
+                                                    object:nil];
+        [[WizNotificationCenter defaultCenter] addObserver:self
+                                                  selector:@selector(willUpdateGroup:)
+                                                      name:WizNMDidUpdataGroupList
+                                                    object:nil];
         
     }
     return self;
+}
+
+- (void) setSync:(NSString*)key statue:(NSInteger)statue
+{
+    [self.syncStatueDic setObject:[NSNumber numberWithInteger:statue] forKey:key];
+}
+
+- (void) didUpdateGroup:(NSNotification*)nc
+{
+    NSString* kbguid = [WizNotificationCenter getGuidFromNc:nc];
+    if (kbguid) {
+        [self setSync:kbguid statue:WizGroupSyncStatueNormal];
+    }
+}
+- (void) willUpdateGroup:(NSNotification*)nc
+{
+    NSString* kbguid = [WizNotificationCenter getGuidFromNc:nc];
+    if (kbguid) {
+        [self setSync:kbguid statue:WizGroupSyncStatueSycning];
+    }
 }
 
 
@@ -78,7 +111,7 @@
 
 - (void) didClientLoginFaild:(NSError *)error
 {
-    
+    [WizGlobals reportError:error];
 }
 
 - (void) didClientLoginSucceed:(NSString *)accountUserId retObject:(id)ret
@@ -140,20 +173,7 @@
     return [NSString stringWithFormat:@"syncStatue%@%@",kbguid,accountUserId];;
 }
 
-+ (BOOL) isSyncingGrop:(NSString *)kbguid accountUserId:(NSString *)accountUserId
-{
-    if (kbguid == nil) {
-        return NO;
-    }
-    NSString* key = [WizSyncCenter syncStatueKeyGrop:kbguid accountUserId:accountUserId];
-    NSNumber* statue =  [[WizSyncCenter defaultCenter].syncStatueDic objectForKey:key];
-    if (statue) {
-        if ([statue intValue] != WizApiStatueNormal) {
-            return YES;
-        }
-    }
-    return NO;
-}
+
 - (BOOL) isSyncingGrop:(NSString *)kbguid accountUserId:(NSString *)accountUserId
 {
     NSArray* array = [syncToolDictionay allValues];

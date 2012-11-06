@@ -62,7 +62,7 @@
 //}
 
 //debug
-#define WGDetailCellBackgroudColor  [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
+#define WGDetailCellBackgroudColor  [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1.0]
 
 //
 #define MULTIBACK(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)

@@ -119,7 +119,7 @@ static NSString* const KeyOfDocumentUnReadCount = @"KeyOfDocumentUnReadCount";
 
 - (int64_t) documentUnReadCount
 {
-#warning need improvement
+//#warning need improvement
     return [self calculateUnreadDocument];
 }
 - (BOOL) setDocumentUnReadCount:(int64_t)count
@@ -294,9 +294,11 @@ static NSString* const KeyOfDocumentUnReadCount = @"KeyOfDocumentUnReadCount";
 - (NSArray*) documentsByTag:(NSString *)tagGUID
 {
     NSString* sqlWhere = [NSString stringWithFormat:@"%@%@%@",@"%",tagGUID,@"%"];
-    
-    
     return [self documentsArrayWithWhereFiled:@"where DOCUMENT_TAG_GUIDS like ? order by DOCUMENT_TITLE" arguments:[NSArray arrayWithObject:sqlWhere]];
+}
+- (NSArray*) documentsByNotag
+{
+    return [self documentsArrayWithWhereFiled:@"where DOCUMENT_TAG_GUIDS=\"\" or DOCUMENT_TAG_GUIDS is null " arguments:nil];
 }
 - (NSArray*) documentsForCache:(NSInteger)duration
 {
