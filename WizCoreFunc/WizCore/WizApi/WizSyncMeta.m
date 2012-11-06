@@ -122,6 +122,7 @@
         [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
         [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupError object:nil userInfo:userInfo];
         [self.delegate didSyncMetaFaild];
+        apiIndex = 0;
     }
     else
     {
@@ -131,6 +132,7 @@
             [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
             [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupEnd object:nil userInfo:userInfo];
             [self.delegate didSyncMetaSucceed];
+            apiIndex = 0;
         }
         else
         {
