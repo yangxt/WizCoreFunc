@@ -503,9 +503,6 @@ static NSArray* htmlArray;
 {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];  
     NSString *build = [infoDictionary objectForKey:@"CFBundleVersion"];
-    if (!build) {
-        build = @"3.1";
-    }
     return build;
 }
 + (NSString*) localLanguageKey

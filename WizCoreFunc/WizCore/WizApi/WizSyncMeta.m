@@ -113,11 +113,17 @@
     tagList.serverVersion = [tagVer integerValue];
 
 }
-
+- (void) setLastUpdateTime
+{
+    id<WizSettingsDbDelegate> db = [[WizDbManager shareInstance] getGlobalSettingDb];
+    [db setLastUpdateTimeForGroup:self.kbguid accountUserId:self.accountUserId];
+    [db setLastUpdateTimeForGroup:nil accountUserId:self.accountUserId];
+}
 // never release any api
 - (void) wizApiEnd:(WizApi *)api withSatue:(enum WizApiStatue)statue
 {
     if (statue == WizApistatueError || isStop) {
+        [self setLastUpdateTime];
         NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:1];
         [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
         [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupError object:nil userInfo:userInfo];
@@ -128,10 +134,14 @@
     {
         apiIndex ++;
         if (apiIndex >= [apiQueque count]) {
+            //
+            [self setLastUpdateTime];
+            //
             NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:1];
             [WizNotificationCenter addGuid:self.kbguid toUserInfo:userInfo];
             [[WizNotificationCenter defaultCenter] postNotificationName:WizNMSyncGroupEnd object:nil userInfo:userInfo];
             [self.delegate didSyncMetaSucceed];
+            
             apiIndex = 0;
         }
         else

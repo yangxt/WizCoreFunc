@@ -90,6 +90,7 @@
 #define WizStrRateWizNote                               NSLocalizedString(@"Rate WizNote", nil)
 #define WizStrThePasswordDontMatch                      NSLocalizedString(@"The password you supplied don't match!", nil)
 #define WizStrLogOut                                    NSLocalizedString(@"Logout", nil)
+#define WizStrLogIn                                   NSLocalizedString(@"Logoin", nil)
 #define WizStrNoTitle                                    NSLocalizedString(@"No Title", nil)
 #define WizStrLoading                                   NSLocalizedString(@"Loading...",nil)
 
@@ -115,5 +116,7 @@
 
 #define WizStrUnreadNotes               NSLocalizedString(@"Unread Notes",nil)
 
+//
+#define WizStrSyncOnlgByWifi           NSLocalizedString(@"Sync Only By WIFI",nil) 
 
 NSString* getTagDisplayName(NSString* tagName);
