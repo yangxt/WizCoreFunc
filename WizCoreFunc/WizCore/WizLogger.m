@@ -57,6 +57,7 @@
 {
     NSString* filePath = [WizFileManager logFilePath];
     NSFileHandle* fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    [fileHandle seekToEndOfFile];
     NSMutableString* log = [NSMutableString string];
     for (NSDictionary* each in items) {
         
@@ -147,7 +148,6 @@ void writeCinLog( const char* function,        // 记录日志所在的函数名
     if ( ! str )
         str = @"";
     
-    // NSDictionary中加入所有需要记录到日志中的信息
     NSDictionary* entry = [ [ NSDictionary alloc ] initWithObjectsAndKeys:
                            @"LogEntry", @"Type",
                            str, @"Message",                                                // 日志内容

@@ -67,7 +67,7 @@
 {
     static NSString* logFilePath = nil;
     if (logFilePath == nil) {
-        logFilePath = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"log.txt"];
+        logFilePath = [[[WizFileManager documentsPath] stringByAppendingPathComponent:@"log.txt"] retain];
     }
     return logFilePath;
 }

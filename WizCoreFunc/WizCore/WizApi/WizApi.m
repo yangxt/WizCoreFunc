@@ -41,7 +41,7 @@
         return NO;
     }
     _statue = WizApiStatueBusy;
-    
+    WizLogDebug(@"start sync class %@",[self class]);
     //
     return YES;
 }
