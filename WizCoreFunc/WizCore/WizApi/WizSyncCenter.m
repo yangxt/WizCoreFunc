@@ -153,6 +153,11 @@ typedef enum WizGroupSyncStatue_
     WizGroupSync* syncTool = [self getSyncToolForGroup:kbguid accountUserId:accountUserId];
     [syncTool downloadWizObject:doc];
 }
+- (void) downloadAttachment:(WizAttachment*)attach kbguid:(NSString*)kbguid accountUserId:(NSString*)accountUserId
+{
+     WizGroupSync* syncTool = [self getSyncToolForGroup:kbguid accountUserId:accountUserId];
+    [syncTool downloadWizObject:attach];
+}
 
 - (BOOL) isSyncingGropMeta
 {

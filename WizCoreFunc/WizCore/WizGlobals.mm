@@ -16,6 +16,9 @@
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 #define MD5PART 10*1024
 
+NSString* const WizCrashHanppend    = @"WizCrashHanppend";
+
+
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

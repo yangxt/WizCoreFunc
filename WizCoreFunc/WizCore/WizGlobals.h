@@ -69,6 +69,10 @@
 #define MULTIMAIN(block) dispatch_async(dispatch_get_main_queue(),block)
 
 #define WizLog(s,...) logTofile(__FILE__,(char *)__FUNCTION__ ,__LINE__,s,##__VA_ARGS__)
+
+
+extern NSString* const WizCrashHanppend;
+
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...);
 @interface WizGlobals : NSObject {
 

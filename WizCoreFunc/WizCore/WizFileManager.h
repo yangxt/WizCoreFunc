@@ -41,5 +41,6 @@
 - (NSString*) metaDataBasePathForAccount:(NSString*)accountUserId   kbGuid:(NSString*)kbGuid;
 - (NSString*) settingDataBasePath;
 //
+-  (NSString*) attachmentFilePath:(NSString*)attachmentGuid accountUserId:(NSString*)accountUserId;
 - (NSString*) cacheDbPath;
 @end

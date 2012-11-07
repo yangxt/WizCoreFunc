@@ -290,4 +290,15 @@
     NSString* accountPath = [self accountPathFor:accountUserId];
     return [accountPath stringByAppendingPathComponent:@"abstract.db"];
 }
+
+- (NSString*) attachmentFilePath:(NSString *)attachmentGuid accountUserId:(NSString *)accountUserId
+{
+    NSString* objectPath = [self wizObjectFilePath:attachmentGuid accountUserId:accountUserId];
+    NSArray* content  = [self contentsOfDirectoryAtPath:objectPath error:nil];
+    if (content) {
+        NSString* fileName = [content lastObject];
+        return [objectPath stringByAppendingPathComponent:fileName];
+    }
+    return nil;
+}
 @end
